@@ -35,6 +35,7 @@
         <table class="table table-hover mt-3">
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Category</th>
                     <th>Description</th>
@@ -43,20 +44,20 @@
             </thead>
             <tbody>
                 {% for place in places %}
-                <tr>
+              <tr>
+                    <td>
+                        <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                    </td>
                     <td>{{ place.name }}</td>
                     <td>{{ place.category }}</td>
                     <td>{{ place.description }}</td>
                     <td>
-                        <!-- Edit Form -->
                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ place.id }}">Edit</button>
-                        <!-- Delete Form -->
                         <form method="post" action="/admin/places/delete/{{ place.id }}" style="display:inline;">
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this place?')">Delete</button>
                         </form>
                     </td>
                 </tr>
-
                 <!-- Edit Modal -->
                 <div class="modal fade" id="editModal{{ place.id }}" tabindex="-1">
                     <div class="modal-dialog">

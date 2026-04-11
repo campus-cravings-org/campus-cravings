@@ -13,7 +13,7 @@ async def admin_places_view(request: Request, db: SessionDep, current_user: Auth
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
     places = db.exec(select(Place)).all()
-    return templates.TemplateResponse(request=request, name="admin_places.html", context={"places": places})
+    return templates.TemplateResponse(request=request, name="admin_places.html", context={"places": places, "user": current_user})
 
 # Add a place
 @router.post("/admin/places/add", response_class=HTMLResponse)

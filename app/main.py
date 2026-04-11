@@ -25,6 +25,17 @@ async def lifespan(app: FastAPI):
         if not session.exec(select(User).where(User.username == "admin")).first():
             session.add(User(username="admin", email="admin@mail.com", password=encrypt_password("adminpass"), role="admin"))
         session.commit()
+    # Seed default places
+    with Session(engine) as session:
+        if not session.exec(select(Place)).first():
+            session.add(Place(name="KFC", description="Crispy fried chicken and sides", category="Fast Food", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkWhY1XzawqvlvUpmgw0GhOhTxg5cVu_XSmw&s"))
+            session.add(Place(name="Rituals Coffee", description="Premium coffee and light bites", category="Cafe", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrIvdMVwFuo0cMkLRMN3yIsozXr5Lv3yBXA&s"))
+            session.add(Place(name="Subway", description="Fresh subs made your way", category="Fast Food", image_url="https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail._TTW_.jpg"))
+            session.add(Place(name="Starbucks", description="Coffee drinks and pastries", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
+            session.add(Place(name="The Breakfast Shed", description="Local breakfast favourites", category="Local", image_url="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400"))
+            session.add(Place(name="Island Grill", description="Caribbean grilled meats and sides", category="Local", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
+            session.add(Place(name="Pizza Hut", description="Pan pizzas and pasta", category="Pizza", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
+            session.commit()
     yield
 
 

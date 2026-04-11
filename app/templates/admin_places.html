@@ -25,6 +25,10 @@
                 <label class="form-label">Image URL (optional)</label>
                 <input type="text" name="image_url" class="form-control">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Google Maps URL (optional)</label>
+                <input type="text" name="google_maps_url" class="form-control" placeholder="Paste Google Maps link here">
+            </div>
             <button type="submit" class="btn btn-primary">Add Place</button>
         </form>
     </div>
@@ -44,7 +48,7 @@
             </thead>
             <tbody>
                 {% for place in places %}
-              <tr>
+                <tr>
                     <td>
                         <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
                     </td>
@@ -83,6 +87,10 @@
                                     <div class="mb-3">
                                         <label class="form-label">Image URL</label>
                                         <input type="text" name="image_url" class="form-control" value="{{ place.image_url or '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Google Maps URL</label>
+                                        <input type="text" name="google_maps_url" class="form-control" value="{{ place.google_maps_url or '' }}">
                                     </div>
                                 </div>
                                 <div class="modal-footer">

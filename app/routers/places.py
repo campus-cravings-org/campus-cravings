@@ -18,10 +18,11 @@ async def admin_places_view(request: Request, db: SessionDep, current_user: Auth
 # Add a place
 @router.post("/admin/places/add", response_class=HTMLResponse)
 async def add_place(request: Request, db: SessionDep, current_user: AuthDep,
-    name: str = Form(), description: str = Form(), category: str = Form(), image_url: str = Form(default=None)):
+    name: str = Form(), description: str = Form(), category: str = Form(), 
+    image_url: str = Form(default=None), google_maps_url: str = Form(default=None)):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
-    place = Place(name=name, description=description, category=category, image_url=image_url)
+    place = Place(name=name, description=description, category=category, image_url=image_url, google_maps_url=google_maps_url)
     db.add(place)
     db.commit()
     flash(request, "Place added successfully!", "success")
@@ -30,7 +31,8 @@ async def add_place(request: Request, db: SessionDep, current_user: AuthDep,
 # Edit a place
 @router.post("/admin/places/edit/{place_id}", response_class=HTMLResponse)
 async def edit_place(request: Request, place_id: int, db: SessionDep, current_user: AuthDep,
-    name: str = Form(), description: str = Form(), category: str = Form(), image_url: str = Form(default=None)):
+    name: str = Form(), description: str = Form(), category: str = Form(), 
+    image_url: str = Form(default=None), google_maps_url: str = Form(default=None)):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
     place = db.get(Place, place_id)
@@ -38,6 +40,7 @@ async def edit_place(request: Request, place_id: int, db: SessionDep, current_us
     place.description = description
     place.category = category
     place.image_url = image_url
+    place.google_maps_url = google_maps_url
     db.commit()
     flash(request, "Place updated!", "success")
     return RedirectResponse(url=request.url_for("admin_places_view"), status_code=status.HTTP_303_SEE_OTHER)

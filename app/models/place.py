@@ -6,4 +6,5 @@ class Place(SQLModel, table=True):
     name: str                                                
     description: str                                         
     category: str                                              #like fast food, coffee shop, restaurant etc
-    image_url: Optional[str] = None                            # image for the place but its optional 
+    image_url: Optional[str] = None                            # image for the place but its optional
+    google_maps_url: Optional[str] = None                      # google maps link for directions

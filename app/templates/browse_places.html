@@ -30,6 +30,7 @@
                     <h5 class="card-title">{{ place.name }}</h5>
                     <p class="card-text text-muted">{{ place.category }}</p>
                     <p class="card-text">{{ place.description }}</p>
+                   
                     <a href="/places/{{ place.id }}" class="btn btn-primary">View Menu</a>
                         {% if user %}
                             {% if place.id in fav_place_ids %}
@@ -38,10 +39,11 @@
                             </form>
                             {% else %}
                             <form method="post" action="/favourites/add/{{ place.id }}" style="display:inline;">
-                                <button type="submit" class="btn btn-outline-danger">♡</button>
+                                <button type="submit" class="btn btn-outline-danger">Favourite♡</button>
                             </form>
                             {% endif %}
                         {% endif %}
+                        <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="btn btn-outline-success btn-sm"> View Location📍</a>
                 </div>
             </div>
         </div>

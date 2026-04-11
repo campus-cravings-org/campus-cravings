@@ -11,7 +11,8 @@ async def browse_places_view(
     request: Request,
     db: SessionDep,
     user_logged_in: IsUserLoggedIn,
-    search: str = None
+    search: str = None,
+    category: str = None
 ):
     user = None
     if user_logged_in:
@@ -20,12 +21,18 @@ async def browse_places_view(
     query = select(Place)
     if search:
         query = query.where(Place.name.contains(search))
+    if category:
+        query = query.where(Place.category == category)
     places = db.exec(query).all()
 
-    template_name = "browse_places.html"
-    
-    return templates.TemplateResponse(request=request, name=template_name, context={
+    # Get all unique categories for dropdown
+    all_places = db.exec(select(Place)).all()
+    categories = sorted(set(p.category for p in all_places))
+
+    return templates.TemplateResponse(request=request, name="browse_places.html", context={
         "places": places,
         "user": user,
-        "search": search
+        "search": search,
+        "categories": categories,
+        "selected_category": category
     })

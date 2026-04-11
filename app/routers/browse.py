@@ -13,18 +13,19 @@ async def browse_places_view(
     user_logged_in: IsUserLoggedIn,
     search: str = None
 ):
-    # Get current user if logged in
     user = None
     if user_logged_in:
         user = await get_current_user(request, db)
     
-    # Get all places, filter by search if provided
     query = select(Place)
     if search:
         query = query.where(Place.name.contains(search))
     places = db.exec(query).all()
+
+    # Use different template based on login status
+    template_name = "browse_places_auth.html" if user else "browse_places.html"
     
-    return templates.TemplateResponse(request=request, name="browse_places.html", context={
+    return templates.TemplateResponse(request=request, name=template_name, context={
         "places": places,
         "user": user,
         "search": search

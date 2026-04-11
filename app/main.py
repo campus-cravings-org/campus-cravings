@@ -27,15 +27,26 @@ async def lifespan(app: FastAPI):
         session.commit()
     # Seed default places
     with Session(engine) as session:
-        if not session.exec(select(Place)).first():
-            session.add(Place(name="KFC", description="Crispy fried chicken and sides", category="Fast Food", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkWhY1XzawqvlvUpmgw0GhOhTxg5cVu_XSmw&s"))
-            session.add(Place(name="Rituals Coffee", description="Premium coffee and light bites", category="Cafe", image_url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRrIvdMVwFuo0cMkLRMN3yIsozXr5Lv3yBXA&s"))
-            session.add(Place(name="Subway", description="Fresh subs made your way", category="Fast Food", image_url="https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail._TTW_.jpg"))
-            session.add(Place(name="Starbucks", description="Coffee drinks and pastries", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
-            session.add(Place(name="The Breakfast Shed", description="Local breakfast favourites", category="Local", image_url="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400"))
-            session.add(Place(name="Island Grill", description="Caribbean grilled meats and sides", category="Local", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
-            session.add(Place(name="Pizza Hut", description="Pan pizzas and pasta", category="Pizza", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
-            session.commit()
+            if not session.exec(select(Place)).first():
+                session.add(Place(name="Dee & Vees", description="Creole Food", category="Creole", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
+                session.add(Place(name="La Bloom Café", description="Coffee, Drinks and Food items", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
+                session.add(Place(name="Caribbean Natural Juices", description="Fresh Juices", category="Drinks", image_url="https://images.unsplash.com/photo-1534353473418-4cfa0ead4ea9?w=400"))
+                session.add(Place(name="Celes and Son", description="Home-style Creole Cooking", category="Creole", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
+                session.add(Place(name="Maureen's Cuisine", description="Pies, Sandwiches & Snacks", category="Snacks", image_url="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400"))
+                session.add(Place(name="Oriental Cuisine", description="Chinese Food", category="Chinese", image_url="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400"))
+                session.add(Place(name="Lee's Doubles", description="Doubles and local street food", category="Street Food", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
+                session.add(Place(name="Juman's Roti Shop", description="Roti and curries", category="Roti", image_url="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400"))
+                session.add(Place(name="Pita Pit", description="Wraps and Paninis", category="Wraps", image_url="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400"))
+                session.add(Place(name="Rituals Coffee House", description="Coffee, Drinks & Food Items", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
+                session.add(Place(name="Linda's", description="Pastries, Salads, Breads & Juices", category="Bakery", image_url="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=400"))
+                session.add(Place(name="Ave 5055", description="Desserts", category="Desserts", image_url="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400"))
+                session.add(Place(name="The Gourmet Pot", description="Contemporary Cuisine", category="Fine Dining", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
+                session.add(Place(name="KFC", description="Fries and Chicken", category="Fast Food", image_url="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400"))
+                session.add(Place(name="Subway", description="Sub Sandwiches", category="Fast Food", image_url="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400"))
+                session.add(Place(name="Benny's BBQ & Burgers", description="Burgers & BBQ", category="Burgers", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
+                session.add(Place(name="Boba and Brew Café", description="Pastries, Smoothies and Ice Cream", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
+                session.add(Place(name="AI Mohammed", description="Burgers and sandwiches", category="Burgers", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
+                session.commit()
     yield
 
 

@@ -79,6 +79,15 @@
                 </a>
             </li>
             
+            {% if user.role == "admin" %}
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center {{ 'active' if request.path == '/admin/places' }}" href="/admin/places">
+                    <span class="material-symbols-outlined me-2">storefront</span>
+                    Manage Places
+                </a>
+            </li>
+            {% endif %}
+
             <li class="nav-item mt-auto">
                 <a class="nav-link d-flex align-items-center text-danger" href="/logout">
                     <span class="material-symbols-outlined me-2">logout</span>

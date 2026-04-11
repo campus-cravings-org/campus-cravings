@@ -1,101 +1,221 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
-
-{% block external_js %}
-
-{% endblock %}
-
+{% block title %}Login - Campus Cravings{% endblock %}
 
 {% block internal_css %}
 <style>
+    /* ── Page background: Fresh Cream #F0FDF4 ── */
     body {
-        background-color: #f8f9fa;
-    }
-
-    .login-container {
+        background-color: #F0FDF4;
         min-height: 100vh;
     }
 
-    .login-card {
-        border: none;
-        border-radius: 1rem;
-        overflow: hidden;
+    /* ── Card: White #FFFFFF, border Mint Border #A7F3D0 ── */
+    .phone-card {
+        background: #FFFFFF;
+        border-radius: 40px;
+        max-width: 380px;
+        width: 100%;
+        padding: 2rem 2rem 2.5rem;
+        box-shadow: 0 20px 60px rgba(5, 150, 105, 0.12);
+        border: 1.5px solid #A7F3D0;
     }
 
-    .login-image {
-        background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+    /* ── Back arrow: Sky Blue #0284C7 ── */
+    .back-btn {
+        color: #0284C7;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .back-btn:hover {
+        color: #059669;
+    }
+
+    /* ── Logo box: Pale Mint #D1FAE5, border Mint Border #A7F3D0 ── */
+    .logo-box {
+        width: 90px;
+        height: 90px;
+        border-radius: 20px;
+        border: 1.5px solid #A7F3D0;
+        margin: 0 auto 0.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        padding: 3rem;
+        background: #D1FAE5;
     }
 
-    .form-section {
-        padding: 3rem;
+    /* ── Logo icon: Emerald Green #059669 ── */
+    .logo-box .material-symbols-outlined {
+        font-size: 3rem;
+        color: #059669;
     }
 
-    .btn-primary {
-        border-radius: 0.5rem;
+    /* ── Heading: Sky Blue #0284C7 ── */
+    .phone-card h5 {
+        color: #0284C7;
     }
 
-    .form-control {
-        border-radius: 0.5rem;
+    .input-icon-wrapper {
+        position: relative;
+    }
+
+    /* ── Input: background Pale Mint #D1FAE5, border Mint Border #A7F3D0 ── */
+    .input-icon-wrapper .form-control {
+        padding-right: 2.8rem;
+        border-radius: 12px;
+        border: 1.5px solid #A7F3D0;
+        background: #F0FDF9;
+        font-size: 0.95rem;
+        color: #064E3B;
+    }
+
+    /* ── Input focus: Emerald Green #059669 border ── */
+    .input-icon-wrapper .form-control:focus {
+        background: #FFFFFF;
+        border-color: #059669;
+        box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+    }
+
+    /* ── Field icons: Slate Gray #6B7280 ── */
+    .input-icon-wrapper .input-icon {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6B7280;
+        font-size: 1.2rem;
+        cursor: pointer;
+        user-select: none;
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* ── Primary button: Emerald Green #059669 ── */
+    .btn-login {
+        background-color: #059669;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 12px;
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background-color 0.2s;
+    }
+
+    /* ── Button hover: Emerald Dark #047857 ── */
+    .btn-login:hover {
+        background-color: #047857;
+        color: #FFFFFF;
+    }
+
+    /* ── Error pill: Pale Mint bg #D1FAE5, Sky Blue text #0284C7 ── */
+    .error-pill {
+        background-color: #D1FAE5;
+        border: 1px solid #A7F3D0;
+        border-radius: 20px;
+        padding: 0.35rem 1rem;
+        font-size: 0.82rem;
+        color: #0369A1;
+        display: inline-block;
+    }
+
+    /* ── Register link: Emerald Green #059669 ── */
+    .register-link {
+        color: #059669;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-link:hover {
+        color: #047857;
+        text-decoration: underline;
     }
 </style>
 {% endblock %}
 
 
 {% block content %}
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background-color: #F0FDF4;">
+    <div class="phone-card">
 
-<div class="container login-container d-flex align-items-center justify-content-center">
-    <div class="card shadow-lg login-card col-lg-10">
-        <div class="row g-0">
-            <div class="col-lg-6 d-none d-lg-flex login-image">
-                <div class="text-center">
-                    <h2 class="mt-4 fw-bold">Welcome Back</h2>
-                    <p class="lead">Sign in to continue to the app</p>
-                </div>
+        <!-- Back arrow: Sky Blue #0284C7 -->
+        <a href="{{ url_for('welcome_view') }}" class="back-btn">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+
+        <!-- Logo + branding -->
+        <div class="text-center mb-3">
+            <div class="logo-box">
+                <span class="material-symbols-outlined">restaurant</span>
             </div>
-            <div class="col-lg-6 bg-white">
-                <div class="form-section">
-                    <h3 class="fw-bold mb-4">Login</h3>
-
-                    <form id="loginForm" method="POST">
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control form-control-md" id="username" name="username"
-                                required="required">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control form-control-md" id="password" name="password"
-                                required>
-                        </div>
-
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Sign In
-                            </button>
-
-                    </form>
-                </div>
-
-                <div class="d-grid mb-3">
-                    <a class="btn btn-secondary btn-lg" href="{{url_for('register_view')}}" role="button">
-                        Sign Up
-                    </a>
-                </div>
-
-
-                {% for message in get_flashed_messages(request) %}
-                <div class="alert alert-{{ message.type }}" role="alert">{{ message.message }}</div>
-                {% endfor %}
-            </div>
+            <!-- Heading: Sky Blue #0284C7 -->
+            <h5 class="fw-bold mb-0">Campus Cravings</h5>
+            <!-- Tagline: Slate Gray #6B7280 -->
+            <p style="color: #6B7280; font-size: 0.8rem;" class="mb-0">Find food on campus</p>
         </div>
+
+        <!-- Flash error: Pale Mint bg, Sky Blue Dark text -->
+        {% for message in get_flashed_messages(request) %}
+        <div class="text-center mb-2">
+            <span class="error-pill">{{ message.message }}</span>
+        </div>
+        {% endfor %}
+
+        <!-- Login form (Lab 5 cookie-based auth pattern) -->
+        <form method="POST">
+
+            <div class="mb-3">
+                <!-- Label: Sky Blue #0284C7, asterisk Emerald #059669 -->
+                <label class="form-label fw-semibold mb-1" style="font-size: 0.9rem; color: #0284C7;">
+                    Username <span style="color: #059669;">*</span>
+                </label>
+                <div class="input-icon-wrapper">
+                    <input type="text" class="form-control" name="username"
+                        placeholder="Enter your username" required>
+                    <!-- Icon: Slate Gray #6B7280 -->
+                    <span class="material-symbols-outlined input-icon">person</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold mb-1" style="font-size: 0.9rem; color: #0284C7;">
+                    Password <span style="color: #059669;">*</span>
+                </label>
+                <div class="input-icon-wrapper">
+                    <input type="password" class="form-control" id="passwordInput"
+                        name="password" placeholder="••••••••" required>
+                    <!-- Toggle icon: Slate Gray #6B7280 -->
+                    <span class="material-symbols-outlined input-icon" id="togglePassword"
+                        onclick="togglePassword()">visibility_off</span>
+                </div>
+            </div>
+
+            <!-- Button: Emerald Green #059669 -->
+            <button type="submit" class="btn btn-login">Login</button>
+        </form>
+
+        <!-- Footer: Slate Gray text, Emerald link -->
+        <p class="text-center mt-4 mb-0" style="font-size: 0.875rem; color: #6B7280;">
+            Don't have an account?
+            <a href="{{ url_for('register_view') }}" class="register-link">Register</a>
+        </p>
 
     </div>
 </div>
-</div>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById('passwordInput');
+        const icon = document.getElementById('togglePassword');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility_off';
+        }
+    }
+</script>
 {% endblock %}

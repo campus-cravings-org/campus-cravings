@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Welcome - Campus Cravings{% endblock %}
+
+{% block internal_css %}
+<style>
+    /* ── Page background: Fresh Cream #F0FDF4 ── */
+    body {
+        background-color: #F0FDF4;
+        min-height: 100vh;
+    }
+
+    /* ── Card: White #FFFFFF, border Mint Border #A7F3D0 ── */
+    .phone-card {
+        background: #FFFFFF;
+        border-radius: 40px;
+        max-width: 380px;
+        width: 100%;
+        padding: 3rem 2rem 2.5rem;
+        box-shadow: 0 20px 60px rgba(5, 150, 105, 0.12);
+        border: 1.5px solid #A7F3D0;
+        text-align: center;
+    }
+
+    /* ── Logo circle: Pale Mint #D1FAE5 gradient ── */
+    .logo-circle {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+        margin: 0 auto 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ── Logo icon: Emerald Green #059669 ── */
+    .logo-circle .material-symbols-outlined {
+        font-size: 5rem;
+        color: #059669;
+    }
+
+    /* ── Headings: Sky Blue #0284C7 ── */
+    .phone-card h2,
+    .phone-card h5 {
+        color: #0284C7;
+    }
+
+    /* ── Primary button (Log in): Emerald Green #059669 ── */
+    .btn-log-in {
+        background-color: #059669;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 25px;
+        padding: 0.7rem 1.5rem;
+        flex: 1;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.2s;
+    }
+
+    /* ── Primary hover: Emerald Dark #047857 ── */
+    .btn-log-in:hover {
+        background-color: #047857;
+        color: #FFFFFF;
+    }
+
+    /* ── Secondary button (Join now): Sky Blue #0284C7 ── */
+    .btn-join-now {
+        background-color: #0284C7;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 25px;
+        padding: 0.7rem 1.5rem;
+        flex: 1;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.2s;
+    }
+
+    /* ── Secondary hover: Sky Blue Dark #0369A1 ── */
+    .btn-join-now:hover {
+        background-color: #0369A1;
+        color: #FFFFFF;
+    }
+
+    /* ── Guest link: Slate Gray #6B7280 ── */
+    .guest-link {
+        color: #6B7280;
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    .guest-link:hover {
+        color: #0284C7;
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background-color: #F0FDF4;">
+    <div class="phone-card">
+
+        <div class="logo-circle">
+            <span class="material-symbols-outlined">restaurant</span>
+        </div>
+
+        <h2 class="fw-bold mb-1">Welcome to Campus<br>Cravings</h2>
+        <h5 class="fw-bold mb-3">Let's get started!</h5>
+        <!-- Tagline: Slate Gray #6B7280 -->
+        <p style="color: #6B7280; font-size: 0.875rem;" class="mb-4">Find food on campus</p>
+
+        <div class="d-flex gap-3 mb-4">
+            <a href="{{ url_for('login_view') }}" class="btn-log-in">Log in</a>
+            <a href="{{ url_for('register_view') }}" class="btn-join-now">Join now</a>
+        </div>
+
+        <a href="{{ url_for('browse_places_view') }}" class="guest-link">Continue as a guest</a>
+    </div>
+</div>
+{% endblock %}

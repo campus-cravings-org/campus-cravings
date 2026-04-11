@@ -10,9 +10,19 @@ from contextlib import asynccontextmanager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     from app.database import create_db_and_tables
+    from sqlmodel import Session, select
+    from app.database import engine
+    from app.models.user import User
+    from app.utilities.security import hash_password
     create_db_and_tables()
+    #seed default users on startup
+    with Session(engine) as session:
+        if not session.exec(select(User).where(User.username == "bob")).first():
+            session.add(User(username="bob", email="bob@mail.com", password=hash_password("bobpass"), role="user"))
+        if not session.exec(select(User).where(User.username == "admin")).first():
+            session.add(User(username="admin", email="admin@mail.com", password=hash_password("adminpass"), role="admin"))
+        session.commit()
     yield
-
 
 
 app = FastAPI(middleware=[

@@ -5,6 +5,7 @@ from app.dependencies.auth import IsUserLoggedIn, get_current_user
 from app.models.place import Place
 from app.models.menu_item import MenuItem
 from app.models.review import Review
+from app.models.favourite import Favourite
 from sqlmodel import select
 from . import router, templates
 
@@ -16,18 +17,20 @@ async def place_detail_view(
     user_logged_in: IsUserLoggedIn,
 ):
     user = None
+    fav_place_ids = []
     if user_logged_in:
         user = await get_current_user(request, db)
+        favs = db.exec(select(Favourite).where(Favourite.user_id == user.id)).all()
+        fav_place_ids = [f.place_id for f in favs]
 
     place = db.get(Place, place_id)
     menu_items = db.exec(select(MenuItem).where(MenuItem.place_id == place_id)).all()
     reviews = db.exec(select(Review).where(Review.place_id == place_id)).all()
 
-    template_name = "place_detail.html"
-
-    return templates.TemplateResponse(request=request, name=template_name, context={
+    return templates.TemplateResponse(request=request, name="place_detail.html", context={
         "place": place,
         "menu_items": menu_items,
         "reviews": reviews,
         "user": user,
+        "fav_place_ids": fav_place_ids
     })

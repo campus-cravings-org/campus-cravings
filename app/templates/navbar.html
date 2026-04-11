@@ -9,15 +9,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/places">Browse Places</a>
                 </li>
-                {% if user %}
+                {% if user and user.role != "admin" %}
                 <li class="nav-item">
                     <a class="nav-link" href="/favourites">Favourites</a>
                 </li>
-                {% if user.role == "admin" %}
+                {% endif %}
+                {% if user and user.role == "admin" %}
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/places">Manage Places</a>
                 </li>
-                {% endif %}
                 {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto">

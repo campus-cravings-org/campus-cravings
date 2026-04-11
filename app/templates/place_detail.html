@@ -11,6 +11,19 @@
             <h2>{{ place.name }}</h2>
             <span class="badge bg-secondary mb-2">{{ place.category }}</span>
             <p>{{ place.description }}</p>
+            {% if user %}
+                {% if place.id in fav_place_ids %}
+                <form method="post" action="/favourites/remove/{{ place.id }}">
+                    <button type="submit" class="btn btn-danger">♥ Remove from Favourites</button>
+                </form>
+                {% else %}
+                <form method="post" action="/favourites/add/{{ place.id }}">
+                    <button type="submit" class="btn btn-outline-danger">♡ Add to Favourites</button>
+                </form>
+                {% endif %}
+            {% else %}
+            <a href="/login" class="btn btn-outline-secondary">Login to Favourite</a>
+            {% endif %}
         </div>
     </div>
 

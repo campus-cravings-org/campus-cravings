@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>My Favourites</h2>
+
+    <div class="row">
+        {% for place in places %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ place.name }}</h5>
+                    <p class="card-text text-muted">{{ place.category }}</p>
+                    <p class="card-text">{{ place.description }}</p>
+                    <a href="/places/{{ place.id }}" class="btn btn-primary">View Menu</a>
+                    <form method="post" action="/favourites/remove/{{ place.id }}" style="display:inline;">
+                        <button type="submit" class="btn btn-outline-danger">♡ Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if not places %}
+        <div class="col-12">
+            <p class="text-muted">No favourites yet. Browse places and add some!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

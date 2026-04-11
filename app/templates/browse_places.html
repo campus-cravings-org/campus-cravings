@@ -31,6 +31,17 @@
                     <p class="card-text text-muted">{{ place.category }}</p>
                     <p class="card-text">{{ place.description }}</p>
                     <a href="/places/{{ place.id }}" class="btn btn-primary">View Menu</a>
+                        {% if user %}
+                            {% if place.id in fav_place_ids %}
+                            <form method="post" action="/favourites/remove/{{ place.id }}" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">♥</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="/favourites/add/{{ place.id }}" style="display:inline;">
+                                <button type="submit" class="btn btn-outline-danger">♡</button>
+                            </form>
+                            {% endif %}
+                        {% endif %}
                 </div>
             </div>
         </div>

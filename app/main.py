@@ -13,14 +13,17 @@ async def lifespan(app: FastAPI):
     from sqlmodel import Session, select
     from app.database import engine
     from app.models.user import User
-    from app.utilities.security import hash_password
+    from app.models.place import Place
+    from app.models.menu_item import MenuItem
+    from app.models.review import Review
+    from app.utilities.security import encrypt_password
     create_db_and_tables()
-    #seed default users on startup
+    # Seed default users on startup
     with Session(engine) as session:
         if not session.exec(select(User).where(User.username == "bob")).first():
-            session.add(User(username="bob", email="bob@mail.com", password=hash_password("bobpass"), role="user"))
+            session.add(User(username="bob", email="bob@mail.com", password=encrypt_password("bobpass"), role="user"))
         if not session.exec(select(User).where(User.username == "admin")).first():
-            session.add(User(username="admin", email="admin@mail.com", password=hash_password("adminpass"), role="admin"))
+            session.add(User(username="admin", email="admin@mail.com", password=encrypt_password("adminpass"), role="admin"))
         session.commit()
     yield
 

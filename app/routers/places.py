@@ -1,7 +1,7 @@
 from fastapi import Request, Form, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from app.dependencies import SessionDep
-from app.dependencies.auth import CurrentUser
+from app.dependencies.auth import AuthDep
 from . import router, templates
 from app.models.place import Place
 from sqlmodel import select
@@ -9,7 +9,7 @@ from app.utilities.flash import flash
 
 # View all places (admin panel)
 @router.get("/admin/places", response_class=HTMLResponse)
-async def admin_places_view(request: Request, db: SessionDep, current_user: CurrentUser):
+async def admin_places_view(request: Request, db: SessionDep, current_user: AuthDep):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
     places = db.exec(select(Place)).all()
@@ -17,7 +17,7 @@ async def admin_places_view(request: Request, db: SessionDep, current_user: Curr
 
 # Add a place
 @router.post("/admin/places/add", response_class=HTMLResponse)
-async def add_place(request: Request, db: SessionDep, current_user: CurrentUser,
+async def add_place(request: Request, db: SessionDep, current_user: AuthDep,
     name: str = Form(), description: str = Form(), category: str = Form(), image_url: str = Form(default=None)):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
@@ -29,7 +29,7 @@ async def add_place(request: Request, db: SessionDep, current_user: CurrentUser,
 
 # Edit a place
 @router.post("/admin/places/edit/{place_id}", response_class=HTMLResponse)
-async def edit_place(request: Request, place_id: int, db: SessionDep, current_user: CurrentUser,
+async def edit_place(request: Request, place_id: int, db: SessionDep, current_user: AuthDep,
     name: str = Form(), description: str = Form(), category: str = Form(), image_url: str = Form(default=None)):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
@@ -44,7 +44,7 @@ async def edit_place(request: Request, place_id: int, db: SessionDep, current_us
 
 # Delete a place
 @router.post("/admin/places/delete/{place_id}", response_class=HTMLResponse)
-async def delete_place(request: Request, place_id: int, db: SessionDep, current_user: CurrentUser):
+async def delete_place(request: Request, place_id: int, db: SessionDep, current_user: AuthDep):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
     place = db.get(Place, place_id)

@@ -1,11 +1,11 @@
-{% extends "authenticated-base.html" %}
+{% extends "base.html" %}
 
 {% block external_js %}
 <script src="{{ url_for('static', path='js/app.js')}}"></script>
 {% endblock %}
 
 
-{% block subpage_content %}
+{% block content %}
 
     <div class="container" id="content">
         <div class="row">

@@ -3,29 +3,31 @@ from fastapi.responses import HTMLResponse
 from app.dependencies import SessionDep
 from app.dependencies.auth import IsUserLoggedIn, get_current_user
 from app.models.place import Place
+from app.models.menu_item import MenuItem
+from app.models.review import Review
 from sqlmodel import select
 from . import router, templates
 
-@router.get("/places", response_class=HTMLResponse)
-async def browse_places_view(
+@router.get("/places/{place_id}", response_class=HTMLResponse)
+async def place_detail_view(
     request: Request,
+    place_id: int,
     db: SessionDep,
     user_logged_in: IsUserLoggedIn,
-    search: str = None
 ):
     user = None
     if user_logged_in:
         user = await get_current_user(request, db)
-    
-    query = select(Place)
-    if search:
-        query = query.where(Place.name.contains(search))
-    places = db.exec(query).all()
 
-    template_name = "browse_places.html"
-    
+    place = db.get(Place, place_id)
+    menu_items = db.exec(select(MenuItem).where(MenuItem.place_id == place_id)).all()
+    reviews = db.exec(select(Review).where(Review.place_id == place_id)).all()
+
+    template_name = "place_detail.html"
+
     return templates.TemplateResponse(request=request, name=template_name, context={
-        "places": places,
+        "place": place,
+        "menu_items": menu_items,
+        "reviews": reviews,
         "user": user,
-        "search": search
     })

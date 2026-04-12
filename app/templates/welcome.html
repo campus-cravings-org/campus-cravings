@@ -3,51 +3,71 @@
 
 {% block internal_css %}
 <style>
-    /* ── Page background: Fresh Cream #F0FDF4 ── */
     body {
-        background-color: #F0FDF4;
+        margin: 0;
+        padding: 0;
         min-height: 100vh;
+        background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('/static/img/welcome.jpg');
+        background-size: cover;
+        background-position: center;
     }
 
-    /* ── Card: White #FFFFFF, border Mint Border #A7F3D0 ── */
     .phone-card {
-        background: #FFFFFF;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
         border-radius: 40px;
-        max-width: 380px;
+        max-width: 400px;
         width: 100%;
         padding: 3rem 2rem 2.5rem;
-        box-shadow: 0 20px 60px rgba(5, 150, 105, 0.12);
-        border: 1.5px solid #A7F3D0;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         text-align: center;
     }
 
-    /* ── Logo circle: Pale Mint #D1FAE5 gradient ── */
-    .logo-circle {
-        width: 140px;
-        height: 140px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
-        margin: 0 auto 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .logo-img {
+        width: 200px;
+        height: auto;
+        margin: 0 auto 1.5rem;
+        display: block;
     }
 
-    /* ── Logo icon: Emerald Green #059669 ── */
-    .logo-circle .material-symbols-outlined {
-        font-size: 5rem;
-        color: #059669;
+    .phone-card h2 {
+        color: #FFFFFF;
+        font-weight: 700;
     }
 
-    /* ── Headings: Sky Blue #0284C7 ── */
-    .phone-card h2,
     .phone-card h5 {
-        color: #0284C7;
+        color: #C4622D;
+        font-weight: 600;
     }
 
-    /* ── Primary button (Log in): Emerald Green #059669 ── */
+    .tagline {
+        color: #9CA3AF;
+        font-size: 0.875rem;
+    }
+
+    .features {
+        display: flex;
+        justify-content: space-around;
+        margin: 1.5rem 0;
+        gap: 0.5rem;
+    }
+
+    .feature-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.75rem;
+        color: #9CA3AF;
+    }
+
+    .feature-icon {
+        font-size: 1.5rem;
+    }
+
     .btn-log-in {
-        background-color: #059669;
+        background-color: #C4622D;
         color: #FFFFFF;
         border: none;
         border-radius: 25px;
@@ -61,17 +81,15 @@
         transition: background-color 0.2s;
     }
 
-    /* ── Primary hover: Emerald Dark #047857 ── */
     .btn-log-in:hover {
-        background-color: #047857;
+        background-color: #A34E22;
         color: #FFFFFF;
     }
 
-    /* ── Secondary button (Join now): Sky Blue #0284C7 ── */
     .btn-join-now {
-        background-color: #0284C7;
+        background-color: transparent;
         color: #FFFFFF;
-        border: none;
+        border: 2px solid #FFFFFF;
         border-radius: 25px;
         padding: 0.7rem 1.5rem;
         flex: 1;
@@ -80,49 +98,58 @@
         text-decoration: none;
         display: inline-block;
         text-align: center;
-        transition: background-color 0.2s;
+        transition: all 0.2s;
     }
 
-    /* ── Secondary hover: Sky Blue Dark #0369A1 ── */
     .btn-join-now:hover {
-        background-color: #0369A1;
-        color: #FFFFFF;
+        background-color: #FFFFFF;
+        color: #0F2D1A;
     }
 
-    /* ── Guest link: Slate Gray #6B7280 ── */
     .guest-link {
-        color: #6B7280;
+        color: #9CA3AF;
         text-decoration: none;
         font-size: 0.875rem;
     }
 
     .guest-link:hover {
-        color: #0284C7;
+        color: #FFFFFF;
         text-decoration: underline;
     }
 </style>
 {% endblock %}
 
-
 {% block content %}
-<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; background-color: #F0FDF4;">
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 60px;">
     <div class="phone-card">
 
-        <div class="logo-circle">
-            <span class="material-symbols-outlined">restaurant</span>
-        </div>
+        <img src="/static/img/logo.png" alt="Campus Cravings Logo" class="logo-img">
 
-        <h2 class="fw-bold mb-1">Welcome to Campus<br>Cravings</h2>
-        <h5 class="fw-bold mb-3">Let's get started!</h5>
-        <!-- Tagline: Slate Gray #6B7280 -->
-        <p style="color: #6B7280; font-size: 0.875rem;" class="mb-4">Find food on campus</p>
+        <h2 class="mb-1">Campus Cravings</h2>
+        <h5 class="mb-2">Let's get started!</h5>
+        <p class="tagline mb-4">Discover food spots on campus</p>
+
+        <div class="features mb-3">
+            <div class="feature-item">
+                <span class="feature-icon">🍽️</span>
+                <span>Browse Menus</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📍</span>
+                <span>Find Locations</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⭐</span>
+                <span>Leave Reviews</span>
+            </div>
+        </div>
 
         <div class="d-flex gap-3 mb-4">
             <a href="{{ url_for('login_view') }}" class="btn-log-in">Log in</a>
             <a href="{{ url_for('register_view') }}" class="btn-join-now">Join now</a>
         </div>
 
-        <a href="{{ url_for('browse_places_view') }}" class="guest-link">Continue as a guest</a>
+        <a href="{{ url_for('browse_places_view') }}" class="guest-link">Continue as a guest →</a>
     </div>
 </div>
 {% endblock %}

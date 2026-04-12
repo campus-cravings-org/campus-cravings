@@ -17,6 +17,54 @@
         rel="stylesheet" />
     <!-- Custom css and js global for the app-->
     <link href="{{ url_for('static', path='css/app.css')}}" rel="stylesheet">
+    <style>
+        .hamburger-button {
+            border-radius: 14px;
+            min-width: 48px;
+            min-height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+        .hamburger-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .hamburger-dropdown {
+            position: absolute;
+            top: 66px;
+            right: 16px;
+            min-width: 200px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 26px 60px rgba(15, 23, 42, 0.16);
+            display: none;
+            z-index: 1050;
+            overflow: hidden;
+        }
+        .hamburger-dropdown.show {
+            display: block;
+        }
+        .hamburger-dropdown .dropdown-item {
+            display: block;
+            padding: 14px 18px;
+            color: #1e2a5d;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+        .hamburger-dropdown .dropdown-item:hover {
+            background: #f4f7ff;
+        }
+        .hamburger-dropdown .text-danger {
+            color: #bf1f2d !important;
+        }
+        .navbar .container-fluid {
+            position: relative;
+        }
+    </style>
 
     <!-- Custom css for the page -->
     {% block external_css %}{% endblock %}
@@ -40,7 +88,72 @@
             </div>
         </div>
     </div>
+    <script>
+        var isLoggedIn = {{ user is not none | tojson }};
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggle = document.getElementById('hamburgerToggle');
+            var menu = document.getElementById('hamburgerMenu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    menu.classList.toggle('show');
+                });
+                document.addEventListener('click', function () {
+                    menu.classList.remove('show');
+                });
+                menu.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                });
+            }
 
+            var categoryToggle = document.getElementById('categoryDropdownButton');
+            var categoryMenu = document.getElementById('categoryDropdownMenu');
+            if (categoryToggle && categoryMenu) {
+                categoryToggle.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    categoryMenu.classList.toggle('show');
+                });
+                document.addEventListener('click', function () {
+                    categoryMenu.classList.remove('show');
+                });
+                categoryMenu.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                });
+            }
+
+            document.querySelectorAll('.filter-item-all').forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    var searchInput = document.getElementById('searchInput');
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                });
+            });
+
+            document.querySelectorAll('.favourite-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    if (!isLoggedIn) {
+                        const errorDiv = this.nextElementSibling;
+                        if (errorDiv && errorDiv.classList.contains('favourite-error')) {
+                            errorDiv.style.display = 'block';
+                            setTimeout(() => {
+                                errorDiv.style.display = 'none';
+                            }, 3000);
+                        }
+                        return;
+                    }
+                    this.classList.toggle('active');
+                    if (this.classList.contains('active')) {
+                        this.textContent = 'Favourited';
+                    } else {
+                        this.textContent = 'Favourite';
+                    }
+                });
+            });
+        });
+    </script>
     {% block external_js %}{% endblock %}
 </body>
 

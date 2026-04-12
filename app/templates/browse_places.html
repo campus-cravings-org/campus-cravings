@@ -1,57 +1,329 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
+
+{% block internal_css %}
+<style>
+.browse-page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+}
+.browse-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.browse-title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.browse-title .small-title {
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #6f7f9e;
+}
+.browse-title h1 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    line-height: 1.05;
+    color: #17233d;
+}
+.browse-welcome {
+    color: #4b5c7b;
+    font-weight: 600;
+    text-align: right;
+}
+.browse-search-panel {
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 18px 40px rgba(66, 84, 110, 0.08);
+    padding: 22px;
+    margin-bottom: 24px;
+}
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f7fb;
+    border-radius: 999px;
+    padding: 12px 18px;
+    border: 1px solid #e3e8f1;
+}
+.search-box .material-symbols-outlined {
+    font-size: 26px;
+    color: #5f6d88;
+}
+.search-box input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #272f41;
+}
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+.filter-pill {
+    border: none;
+    border-radius: 999px;
+    padding: 11px 18px;
+    font-weight: 700;
+    font-size: .95rem;
+    background: #eef2ff;
+    color: #1f2e5d;
+    transition: transform .15s ease, background .15s ease;
+    cursor: pointer;
+}
+.filter-pill:hover,
+.filter-pill:focus {
+    background: #d9e2ff;
+}
+.filter-pill.active {
+    background: #1e2a5a;
+    color: #ffffff;
+}
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+}
+.browse-card {
+    background: #ffffff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(52, 71, 112, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+.browse-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+.browse-card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.browse-card-body h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #18213c;
+}
+.browse-card-body .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.browse-card-body .category-tag {
+    display: inline-flex;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eef6ff;
+    color: #1e3e70;
+    font-size: .85rem;
+    font-weight: 700;
+}
+.browse-card-body p.description {
+    margin: 0;
+    color: #59667e;
+    line-height: 1.6;
+    min-height: 3.2rem;
+}
+.browse-card-body .action-row {
+    display: grid;
+    gap: 10px;
+}
+.action-row .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.browse-card-body a,
+.browse-card-body button {
+    border-radius: 14px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.browse-card-body a:hover,
+.browse-card-body a:focus {
+    text-decoration: none;
+}
+.browse-card-body .primary-btn {
+    background: #1e2a5a;
+    color: #ffffff;
+    border: none;
+    width: 100%;
+}
+.browse-card-body .primary-btn:hover {
+    background: #16204b;
+}
+.browse-card-body .secondary-btn {
+    background: #ffffff;
+    color: #1f2e5d;
+    border: 1px solid #d8dee8;
+    width: 100%;
+}
+.browse-card-body .secondary-btn:hover {
+    background: #f7f9fe;
+}
+.browse-card-body .favourite-btn {
+    width: 100%;
+}
+.browse-card-body .favourite-btn.active {
+    background: #fce4eb;
+    color: #b3284a;
+    border-color: #f2c4d2;
+}
+.browse-card-body .location-btn {
+    width: 100%;
+}
+.action-row {
+    display: grid;
+    gap: 12px;
+}
+.button-group {
+    display: grid;
+    gap: 10px;
+    width: 100%;
+}
+.filter-dropdown {
+    position: relative;
+}
+.filter-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 145px;
+    gap: 8px;
+}
+.filter-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: auto;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d8dee8;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(66, 84, 110, 0.08);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 30;
+}
+.filter-dropdown-menu.show {
+    display: flex;
+}
+.filter-item {
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 12px 16px;
+    font-size: .95rem;
+    color: #1f2e5d;
+    width: 100%;
+    cursor: pointer;
+}
+.filter-item:hover {
+    background: #f4f7ff;
+}
+.filter-item.active {
+    background: #1e2a5a;
+    color: #ffffff;
+}
+.empty-state {
+    text-align: center;
+    color: #61708f;
+    padding: 40px 0;
+}
+@media (max-width: 768px) {
+    .browse-header {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+    .browse-welcome {
+        text-align: left;
+    }
+}
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Campus Cravings</h2>
-
-
-
-    <!--drop down for categories with search bar -->
-    <form method="get" action="/places" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search places..." value="{{ search or '' }}">
-            <select name="category" class="form-select" style="max-width: 200px;">
-                <option value="">All Categories</option>
-                {% for cat in categories %}
-                <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="btn btn-primary">Search</button>
+<div class="browse-page">
+    <div class="browse-header">
+        <div class="browse-title">
+            <h1>Campus Cravings</h1>
         </div>
-    </form>
+        <div class="browse-welcome">
+            Welcome, {{ user.username if user else 'User' }}
+        </div>
+    </div>
 
-    <!-- Places Cards -->
-    <div class="row">
-        {% for place in places %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ place.name }}</h5>
-                    <p class="card-text text-muted">{{ place.category }}</p>
-                    <p class="card-text">{{ place.description }}</p>
-                   
-                    <a href="/places/{{ place.id }}" class="btn btn-primary">View Menu</a>
-                        {% if user %}
-                            {% if place.id in fav_place_ids %}
-                            <form method="post" action="/favourites/remove/{{ place.id }}" style="display:inline;">
-                                <button type="submit" class="btn btn-danger">♥</button>
-                            </form>
-                            {% else %}
-                            <form method="post" action="/favourites/add/{{ place.id }}" style="display:inline;">
-                                <button type="submit" class="btn btn-outline-danger">Favourite♡</button>
-                            </form>
-                            {% endif %}
-                        {% endif %}
-                        <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="btn btn-outline-success btn-sm"> View Location📍</a>
+    <form method="get" action="/places" class="browse-search-panel">
+        <div class="search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input id="searchInput" type="text" name="search" placeholder="Search" value="{{ search or '' }}">
+        </div>
+        <div class="filter-row">
+            <div class="filter-dropdown">
+                <button type="button" class="filter-pill filter-dropdown-toggle" id="categoryDropdownButton">
+                    {{ selected_category or 'All' }}
+                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                </button>
+                <div class="filter-dropdown-menu" id="categoryDropdownMenu">
+                    <button type="submit" class="filter-item filter-item-all {% if not selected_category %}active{% endif %}" name="category" value="">All</button>
+                    {% for cat in categories %}
+                    <button type="submit" class="filter-item {% if cat == selected_category %}active{% endif %}" name="category" value="{{ cat }}">{{ cat }}</button>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+    </form>
+
+    <div class="places-grid">
+        {% for place in places %}
+        <article class="browse-card">
+            <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }} image">
+            <div class="browse-card-body">
+                <div class="meta-row">
+                    <h3>{{ place.name }}</h3>
+                    <span class="category-tag">{{ place.category }}</span>
+                </div>
+                <p class="description">{{ place.description }}</p>
+                <div class="action-row">
+                    <div class="button-group">
+                        <a href="/places/{{ place.id }}" class="primary-btn">View Menu</a>
+                        <button type="button" class="secondary-btn favourite-btn {% if place.id in fav_place_ids %}active{% endif %}" data-place-id="{{ place.id }}">
+                            {% if place.id in fav_place_ids %}Favourited{% else %}Favourite{% endif %}
+                        </button>
+                        <div class="favourite-error" style="display: none; color: #bf1f2d; font-size: 0.85rem; margin-top: 4px;">Please login first to favourite places.</div>
+                        <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="secondary-btn location-btn">View Location</a>
+                    </div>
+                </div>
+            </div>
+        </article>
         {% endfor %}
 
         {% if not places %}
-        <div class="col-12">
-            <p class="text-muted">No places found.</p>
+        <div class="empty-state">
+            <p>No places found.</p>
         </div>
         {% endif %}
     </div>

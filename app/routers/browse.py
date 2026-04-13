@@ -44,7 +44,7 @@ async def browse_places_view(
     places = db.exec(query).all()
 
     if rating:
-        places = [p for p in places if avg_ratings.get(p.id) and int(avg_ratings[p.id]) >= rating]
+        places = [p for p in places if avg_ratings.get(p.id) and int(avg_ratings[p.id]) == rating]
 
     categories = sorted(set(p.category for p in all_places_for_ratings))
 

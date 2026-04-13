@@ -47,6 +47,14 @@ async def lifespan(app: FastAPI):
                 session.add(Place(name="Boba and Brew Café", description="Pastries, Smoothies and Ice Cream", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
                 session.add(Place(name="AI Mohammed", description="Burgers and sandwiches", category="Burgers", image_url="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400"))
                 session.commit()
+    # Sync menu from Sheety on startup
+    with Session(engine) as session:
+        from app.services.menu_service import sync_menu_from_sheety
+        try:
+            synced = await sync_menu_from_sheety(session)
+            print(f"[startup] Synced {synced} menu items from Sheety")
+        except Exception as e:
+            print(f"[startup] Menu sync failed (continuing anyway): {e}")
     yield
 
 

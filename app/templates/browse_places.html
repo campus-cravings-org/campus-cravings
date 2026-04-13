@@ -346,6 +346,29 @@ body {
         {% endif %}
     </div>
 </div>
-
+<script>
+document.querySelectorAll('.favourite-btn').forEach(function(btn) {
+    btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const form = btn.closest('form');
+        if (!form) return;
+        const url = form.action;
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            redirect: 'follow'
+        });
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            btn.textContent = '♡ Favourite';
+            form.action = form.action.replace('/remove/', '/add/');
+        } else {
+            btn.classList.add('active');
+            btn.textContent = '♥ Favourited';
+            form.action = form.action.replace('/add/', '/remove/');
+        }
+    });
+});
+</script>
 
 {% endblock %}

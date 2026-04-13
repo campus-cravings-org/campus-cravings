@@ -129,11 +129,21 @@
         color: #A34E22;
         text-decoration: underline;
     }
+
+    .guest-link {
+        color: #9CA3AF;
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
+
+    .guest-link:hover {
+        color: #FFFFFF;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 60px;">
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 130px; padding-bottom: 30px;">
     <div class="phone-card">
 
         <a href="{{ url_for('welcome_view') }}" class="back-btn">
@@ -141,7 +151,7 @@
         </a>
 
         <div class="text-center mb-3">
-            <img src="/static/img/logo.png" alt="Campus Cravings Logo" class="logo-img">
+            <img src="/static/img/updatedlogo.png" alt="Campus Cravings Logo" class="logo-img">
             <h5 class="fw-bold mb-0">Campus Cravings</h5>
             <p class="tagline mb-0">Find food on campus</p>
         </div>
@@ -182,6 +192,9 @@
         <p class="text-center mt-4 mb-0" style="font-size: 0.875rem; color: #9CA3AF;">
             Don't have an account?
             <a href="{{ url_for('register_view') }}" class="register-link">Register</a>
+        </p>
+        <p class="text-center mt-2 mb-0">
+            <a href="{{ url_for('browse_places_view') }}" class="guest-link">Continue as a guest →</a>
         </p>
 
     </div>

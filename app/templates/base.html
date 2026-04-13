@@ -119,6 +119,22 @@
                 });
             }
 
+            var ratingToggle = document.getElementById('ratingDropdownButton');
+            var ratingMenu = document.getElementById('ratingDropdownMenu');
+            if (ratingToggle && ratingMenu) {
+                ratingToggle.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    ratingMenu.classList.toggle('show');
+                });
+                document.addEventListener('click', function () {
+                    ratingMenu.classList.remove('show');
+                });
+                ratingMenu.addEventListener('click', function (event) {
+                    event.stopPropagation();
+                    ratingMenu.classList.remove('show');
+                });
+            }
+
             document.querySelectorAll('.filter-item-all').forEach(function (button) {
                 button.addEventListener('click', function (event) {
                     event.stopPropagation();

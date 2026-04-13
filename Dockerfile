@@ -10,8 +10,8 @@ COPY ./app /app
 
 RUN pip install .
 
-WORKDIR /app
+WORKDIR /
 
 ENTRYPOINT ["python"]
 
-CMD ["-m", "app.main"]
+CMD ["/usr/local/lib/python3.12/site-packages/app/main.py"]

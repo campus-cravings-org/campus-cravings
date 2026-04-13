@@ -26,7 +26,8 @@ async def add_favourite(request: Request, place_id: int, db: SessionDep, user: A
     if not existing:
         db.add(Favourite(user_id=user.id, place_id=place_id))
         db.commit()
-    return RedirectResponse(url=f"/places/{place_id}", status_code=status.HTTP_303_SEE_OTHER)
+    referer = request.headers.get("referer", "/places")
+    return RedirectResponse(url=referer, status_code=status.HTTP_303_SEE_OTHER)
 
 # Remove from favourites
 @router.post("/favourites/remove/{place_id}")
@@ -35,4 +36,5 @@ async def remove_favourite(request: Request, place_id: int, db: SessionDep, user
     if fav:
         db.delete(fav)
         db.commit()
-    return RedirectResponse(url=f"/places/{place_id}", status_code=status.HTTP_303_SEE_OTHER)
+    referer = request.headers.get("referer", "/favourites")
+    return RedirectResponse(url=referer, status_code=status.HTTP_303_SEE_OTHER)

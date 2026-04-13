@@ -2,221 +2,135 @@
 
 {% block internal_css %}
 <style>
-.place-detail-page {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 24px 16px 40px;
+body {
+    background-color: #0A1F10;
 }
-.detail-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 22px;
+
+.container {
+    color: #FFFFFF;
 }
-.detail-back {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    background: #f5f7fb;
-    color: #1e2a5a;
-    text-decoration: none;
-    border: 1px solid #d8dee8;
+
+h2, h4, h5 {
+    color: #FFFFFF;
 }
-.detail-back:hover {
-    background: #e8eef8;
+
+.badge.bg-secondary {
+    background-color: rgba(196, 98, 45, 0.2) !important;
+    color: #F4A67A !important;
 }
-.detail-title {
-    font-size: clamp(1.5rem, 2.2vw, 2.4rem);
-    font-weight: 800;
-    margin: 0;
-    color: #17233d;
+
+.card {
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #FFFFFF;
 }
-.place-image {
-    width: 100%;
-    border-radius: 26px;
-    overflow: hidden;
-    margin-bottom: 22px;
-    min-height: 220px;
+
+.card-body {
+    color: #FFFFFF;
 }
-.place-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+
+.text-muted {
+    color: #D1D5DB !important;
 }
-.place-summary {
-    background: #ffffff;
-    border-radius: 28px;
-    box-shadow: 0 22px 55px rgba(46, 67, 110, 0.09);
-    padding: 22px;
-    margin-bottom: 22px;
+
+.btn-danger {
+    background-color: rgba(179, 40, 74, 0.3);
+    color: #f2a0b5;
+    border-color: rgba(179, 40, 74, 0.4);
 }
-.place-summary .place-meta {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
+
+.btn-danger:hover {
+    background-color: rgba(179, 40, 74, 0.5);
+    color: #f2a0b5;
 }
-.place-meta .meta-details {
-    min-width: 0;
+
+.btn-outline-danger {
+    color: #f2a0b5;
+    border-color: rgba(179, 40, 74, 0.4);
 }
-.place-meta h2 {
-    margin: 0 0 10px;
-    font-size: 1.8rem;
-    color: #17233d;
+
+.btn-outline-danger:hover {
+    background-color: rgba(179, 40, 74, 0.3);
+    color: #f2a0b5;
 }
-.place-meta .badge-category {
-    display: inline-flex;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: #eef2ff;
-    color: #1e2a5a;
+
+.btn-outline-secondary {
+    color: #D1D5DB;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.btn-outline-secondary:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #FFFFFF;
+}
+
+.btn-primary {
+    background-color: #C4622D;
+    border-color: #C4622D;
+    color: #FFFFFF;
+}
+
+.btn-primary:hover {
+    background-color: #A34E22;
+    border-color: #A34E22;
+}
+
+.btn-secondary {
+    background-color: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: #FFFFFF;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255,255,255,0.15);
+    color: #FFFFFF;
+}
+
+.form-select, .form-control {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #FFFFFF;
+    border-radius: 12px;
+}
+
+.form-select:focus, .form-control:focus {
+    background: rgba(255,255,255,0.12);
+    border-color: #C4622D;
+    box-shadow: 0 0 0 3px rgba(196, 98, 45, 0.2);
+    color: #FFFFFF;
+}
+
+.form-select option {
+    background: #0F2D1A;
+    color: #FFFFFF;
+}
+
+.form-control::placeholder {
+    color: #9CA3AF;
+}
+
+.form-label {
+    color: #D1D5DB;
+}
+
+.alert-info {
+    background: rgba(196, 98, 45, 0.15);
+    border: 1px solid rgba(196, 98, 45, 0.3);
+    color: #F4A67A;
+}
+
+.alert-info a {
+    color: #C4622D;
     font-weight: 700;
-    margin-bottom: 14px;
 }
-.place-meta p.description {
-    margin: 0;
-    color: #505b72;
-    line-height: 1.75;
+
+.fw-bold {
+    color: #F4A67A;
 }
-.place-actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 12px;
-    margin-top: 18px;
-}
-.place-actions .btn {
-    width: 100%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-.place-actions .btn-primary {
-    background: #1e2a5a;
-    border: none;
-}
-.place-actions .btn-primary:hover {
-    background: #16204b;
-}
-.place-actions .btn-location {
-    background: #ffffff;
-    color: #1e2a5a;
-    border: 1px solid #d8dee8;
-}
-.place-actions .btn-location:hover {
-    background: #f7f9fe;
-}
-.map-card {
-    border-radius: 28px;
-    overflow: hidden;
-    border: 1px solid #e0e7f3;
-    margin-bottom: 24px;
-}
-.map-card iframe {
-    width: 100%;
-    height: 280px;
-    border: none;
-}
-.section-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
-}
-.section-tab {
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    border-radius: 999px;
-    background: #f4f7ff;
-    color: #47546b;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-}
-.section-tab.active {
-    background: #1e2a5a;
-    color: #ffffff;
-}
-.tab-pane {
-    display: none;
-}
-.tab-pane.active {
-    display: block;
-}
-.menu-list,
-.reviews-list {
-    display: grid;
-    gap: 14px;
-}
-.menu-item-card,
-.review-card {
-    background: #ffffff;
-    border-radius: 22px;
-    padding: 18px;
-    border: 1px solid #e8edf5;
-}
-.menu-item-card {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-    align-items: center;
-}
-.menu-item-card h5,
-.review-card h5 {
-    margin: 0 0 8px;
-    font-size: 1rem;
-}
-.menu-item-card .price {
-    font-weight: 800;
-    color: #1e2a5a;
-}
-.menu-item-card p,
-.review-card p {
-    margin: 0;
-    color: #5f6d88;
-    line-height: 1.7;
-}
-.review-card .review-header {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-.review-card .review-user {
-    font-weight: 700;
-    color: #1e2a5a;
-}
-.review-card .review-rating {
-    font-weight: 700;
-    color: #334155;
-}
-.review-empty {
-    padding: 18px;
-    background: #f8fafc;
-    border-radius: 18px;
-    border: 1px dashed #cbd5e1;
-    color: #64748b;
-}
-.add-review-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 16px;
-    padding: 12px 0;
-    border-radius: 14px;
-    background: #1e2a5a;
-    color: #ffffff;
-    border: none;
-}
-@media (max-width: 768px) {
-    .place-actions {
-        flex-direction: column;
-    }
+
+p {
+    color: #D1D5DB;
 }
 </style>
 {% endblock %}
@@ -226,7 +140,7 @@
     
     <div class="row mb-4">
         <div class="col-md-4">
-            <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" class="img-fluid rounded" style="width: 100%; height: 250px; object-fit: cover;">
+    <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" class="img-fluid rounded" style="width: 100%; height: 100%; min-height: 350px; object-fit: cover;">
         </div>
         <div class="col-md-8">
             <h2>{{ place.name }}</h2>
@@ -259,21 +173,24 @@
         </div>
     </div>
 
-    <section class="menu-list tab-pane active" id="menuSection">
-        {% if menu_items %}
-            {% for item in menu_items %}
-            <article class="menu-item-card">
-                <div>
-                    <h5>{{ item.name }}</h5>
-                    {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+    <h4 class="mb-3">Menu</h4>
+    {% if menu_items %}
+    <div class="row mb-4">
+        {% for item in menu_items %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="card-text text-muted">{{ item.description or '' }}</p>
+                    <p class="card-text fw-bold" style="color: #C4622D;">${{ item.price }}</p>
                 </div>
-                <div class="price">${{ item.price }}</div>
-            </article>
-            {% endfor %}
-        {% else %}
-        <div class="review-empty">No menu items available for this place.</div>
-        {% endif %}
-    </section>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-muted mb-4">No menu items yet.</p>
+    {% endif %}
 
     <h4 class="mb-3">Reviews</h4>
     {% if reviews %}
@@ -281,7 +198,7 @@
     <div class="card mb-3">
         <div class="card-body">
             <span class="fw-bold">{{ item.username }}</span>
-            <span class="text-muted ms-2">Rating: {{ item.review.rating }}/5</span>
+            <span class="text-muted ms-2">⭐ {{ item.review.rating }}/5</span>
             {% if item.review.comment %}<p class="mt-2">{{ item.review.comment }}</p>{% endif %}
         </div>
     </div>
@@ -322,38 +239,4 @@
 
     <a href="/places" class="btn btn-secondary mt-3">← Back to Places</a>
 </div>
-{% endblock %}
-
-{% block external_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const menuTab = document.getElementById('menuTab');
-        const reviewsTab = document.getElementById('reviewsTab');
-        const menuSection = document.getElementById('menuSection');
-        const reviewsSection = document.getElementById('reviewsSection');
-
-        function setActiveTab(tab) {
-            if (tab === 'menu') {
-                menuTab.classList.add('active');
-                reviewsTab.classList.remove('active');
-                menuSection.classList.add('active');
-                reviewsSection.classList.remove('active');
-            } else {
-                reviewsTab.classList.add('active');
-                menuTab.classList.remove('active');
-                reviewsSection.classList.add('active');
-                menuSection.classList.remove('active');
-            }
-        }
-
-        if (menuTab && reviewsTab && menuSection && reviewsSection) {
-            menuTab.addEventListener('click', function () {
-                setActiveTab('menu');
-            });
-            reviewsTab.addEventListener('click', function () {
-                setActiveTab('reviews');
-            });
-        }
-    });
-</script>
 {% endblock %}

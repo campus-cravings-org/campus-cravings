@@ -1,30 +1,148 @@
 {% extends "base.html" %}
 
+{% block internal_css %}
+<style>
+body {
+    background-color: #0A1F10;
+}
+
+.favourites-page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 24px 16px 40px;
+}
+
+.favourites-page h2 {
+    color: #FFFFFF;
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    margin-bottom: 24px;
+}
+
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.browse-card {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.browse-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.browse-card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.browse-card-body h5 {
+    margin: 0;
+    font-size: 1rem;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.browse-card-body .category {
+    color: #F4A67A;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.browse-card-body .description {
+    color: #D1D5DB;
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.btn-view {
+    background: #C4622D;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.btn-view:hover {
+    background: #A34E22;
+    color: #FFFFFF;
+}
+
+.btn-remove {
+    background: rgba(255,255,255,0.08);
+    color: #FFFFFF;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-remove:hover {
+    background: rgba(179, 40, 74, 0.3);
+    border-color: rgba(179, 40, 74, 0.4);
+    color: #f2a0b5;
+}
+
+.empty-state {
+    text-align: center;
+    color: #9CA3AF;
+    padding: 40px 0;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
+<div class="favourites-page">
     <h2>My Favourites</h2>
 
-    <div class="row">
+    <div class="places-grid">
         {% for place in places %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ place.name }}</h5>
-                    <p class="card-text text-muted">{{ place.category }}</p>
-                    <p class="card-text">{{ place.description }}</p>
-                    <a href="/places/{{ place.id }}" class="btn btn-primary">View Menu</a>
-                    <form method="post" action="/favourites/remove/{{ place.id }}" style="display:inline;">
-                        <button type="submit" class="btn btn-outline-danger">♡ Remove</button>
-                    </form>
-                </div>
+        <article class="browse-card">
+            <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }}">
+            <div class="browse-card-body">
+                <h5>{{ place.name }}</h5>
+                <p class="category">{{ place.category }}</p>
+                <p class="description">{{ place.description }}</p>
+                <a href="/places/{{ place.id }}" class="btn-view">View Menu</a>
+                <form method="post" action="/favourites/remove/{{ place.id }}">
+                    <button type="submit" class="btn-remove">♡ Remove</button>
+                </form>
             </div>
-        </div>
+        </article>
         {% endfor %}
 
         {% if not places %}
-        <div class="col-12">
-            <p class="text-muted">No favourites yet. Browse places and add some!</p>
+        <div class="empty-state">
+            <p>No favourites yet. Browse places and add some!</p>
         </div>
         {% endif %}
     </div>

@@ -14,4 +14,4 @@ WORKDIR /
 
 ENTRYPOINT ["python"]
 
-CMD ["/usr/local/lib/python3.12/site-packages/app/main.py"]
+CMD ["app.main:app", "--host", "0.0.0.0", "--port", "10000"]

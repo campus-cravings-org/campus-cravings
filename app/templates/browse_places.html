@@ -92,7 +92,7 @@ body {
 }
 .places-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
 }
 .browse-card {
@@ -284,9 +284,12 @@ body {
 
     <form method="get" action="/places" class="browse-search-panel">
         <div class="search-box">
-            <span class="material-symbols-outlined">search</span>
-            <input id="searchInput" type="text" name="search" placeholder="Search" value="{{ search or '' }}">
-        </div>
+    <span class="material-symbols-outlined">search</span>
+    <input id="searchInput" type="text" name="search" placeholder="Search" value="{{ search or '' }}">
+    <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; display:flex; align-items:center;">
+        <span class="material-symbols-outlined" style="color:#C4622D; font-size:26px;">arrow_forward</span>
+    </button>
+</div>
         <div class="filter-row">
             <div class="filter-dropdown">
                 <button type="button" class="filter-pill filter-dropdown-toggle" id="categoryDropdownButton">
@@ -294,7 +297,7 @@ body {
                     <span class="material-symbols-outlined">arrow_drop_down</span>
                 </button>
                 <div class="filter-dropdown-menu" id="categoryDropdownMenu">
-                    <button type="submit" class="filter-item filter-item-all {% if not selected_category %}active{% endif %}" name="category" value="">All</button>
+                    <a href="/places" class="filter-item filter-item-all {% if not selected_category %}active{% endif %}">All</a>
                     {% for cat in categories %}
                     <button type="submit" class="filter-item {% if cat == selected_category %}active{% endif %}" name="category" value="{{ cat }}">{{ cat }}</button>
                     {% endfor %}

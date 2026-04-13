@@ -192,20 +192,48 @@ p {
     <p class="text-muted mb-4">No menu items yet.</p>
     {% endif %}
 
-    <h4 class="mb-3">Reviews</h4>
-    {% if reviews %}
-    {% for item in reviews %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <span class="fw-bold">{{ item.username }}</span>
-            <span class="text-muted ms-2">⭐ {{ item.review.rating }}/5</span>
-            {% if item.review.comment %}<p class="mt-2">{{ item.review.comment }}</p>{% endif %}
+        <h4 class="mb-3">Reviews</h4>
+{% if reviews %}
+{% for item in reviews %}
+<div class="card mb-3">
+    <div class="card-body">
+        <span class="fw-bold">{{ item.username }}</span>
+        <span class="text-muted ms-2">⭐ {{ item.review.rating }}/5</span>
+        {% if item.review.comment %}<p class="mt-2">{{ item.review.comment }}</p>{% endif %}
+
+        {% if user and user.id == item.review.user_id %}
+        <div class="mt-2 d-flex gap-2">
+            <button class="btn btn-sm btn-outline-warning" data-bs-toggle="collapse" data-bs-target="#editForm{{ item.review.id }}">Edit</button>
+            <form method="post" action="/reviews/delete/{{ item.review.id }}" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this review?')">Delete</button>
+            </form>
         </div>
+        <div class="collapse mt-2" id="editForm{{ item.review.id }}">
+            <form method="post" action="/reviews/edit/{{ item.review.id }}">
+                <div class="mb-2">
+                    <label class="form-label">Rating</label>
+                    <select name="rating" class="form-select" required>
+                        <option value="5" {% if item.review.rating == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐ — Excellent</option>
+                        <option value="4" {% if item.review.rating == 4 %}selected{% endif %}>⭐⭐⭐⭐ — Good</option>
+                        <option value="3" {% if item.review.rating == 3 %}selected{% endif %}>⭐⭐⭐ — Average</option>
+                        <option value="2" {% if item.review.rating == 2 %}selected{% endif %}>⭐⭐ — Poor</option>
+                        <option value="1" {% if item.review.rating == 1 %}selected{% endif %}>⭐ — Terrible</option>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Comment</label>
+                    <textarea name="comment" class="form-control" rows="2">{{ item.review.comment or '' }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
-    {% endfor %}
-    {% else %}
-    <p class="text-muted">No reviews yet.</p>
-    {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<p class="text-muted">No reviews yet.</p>
+{% endif %}
 
     {% if user %}
     <div class="card mt-4 mb-3">

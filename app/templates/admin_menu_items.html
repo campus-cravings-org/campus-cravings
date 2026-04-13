@@ -7,14 +7,20 @@ body {
 }
 
 .admin-page {
-    max-width: 1100px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 70px 16px 40px;
+    padding: 24px 16px 40px;
 }
 
 .admin-page h3 {
     color: #FFFFFF;
     font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.admin-page .subtitle {
+    color: #9CA3AF;
+    font-size: 0.9rem;
     margin-bottom: 24px;
 }
 
@@ -64,10 +70,29 @@ body {
     padding: 10px 24px;
     font-weight: 700;
     transition: background 0.2s;
+    cursor: pointer;
 }
 
 .btn-add:hover {
     background: #A34E22;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    color: #FFFFFF;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 8px 20px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+}
+
+.btn-back:hover {
+    background: rgba(255,255,255,0.15);
     color: #FFFFFF;
 }
 
@@ -88,10 +113,6 @@ body {
     color: #D1D5DB;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     vertical-align: middle;
-}
-
-.table-hover tbody tr:hover {
-    background: rgba(255,255,255,0.05);
 }
 
 .btn-edit {
@@ -176,91 +197,86 @@ body {
 
 {% block content %}
 <div class="admin-page">
-    <h3>Manage Places</h3>
+    <a href="/admin/places" class="btn-back">← Back to Places</a>
+    <h3>Manage Menu — {{ place.name }}</h3>
+    <p class="subtitle">Add, edit or delete menu items for this place.</p>
 
     <div class="admin-card">
-        <h5>Add New Place</h5>
-        <form method="post" action="/admin/places/add">
+        <h5>Add Menu Item</h5>
+        <form method="post" action="/admin/places/{{ place.id }}/menu/add">
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" name="name" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label class="form-label">Description</label>
-                <input type="text" name="description" class="form-control" required>
+                <label class="form-label">Description (optional)</label>
+                <input type="text" name="description" class="form-control">
             </div>
             <div class="mb-3">
-                <label class="form-label">Category</label>
-                <input type="text" name="category" class="form-control" required>
+                <label class="form-label">Price ($)</label>
+                <input type="number" name="price" class="form-control" step="0.01" min="0" required>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Image URL (optional)</label>
-                <input type="text" name="image_url" class="form-control">
-            </div>
-            <button type="submit" class="btn-add">Add Place</button>
+            <button type="submit" class="btn-add">Add Item</button>
         </form>
     </div>
 
     <div class="admin-card">
-        <h5>All Places</h5>
+        <h5>All Menu Items</h5>
         <table class="table table-hover mt-3">
             <thead>
                 <tr>
-                    <th>Image</th>
                     <th>Name</th>
-                    <th>Category</th>
                     <th>Description</th>
+                    <th>Price</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for place in places %}
+                {% for item in menu_items %}
                 <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description or '—' }}</td>
+                    <td>${{ item.price }}</td>
                     <td>
-                        <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
-                    </td>
-                    <td>{{ place.name }}</td>
-                    <td>{{ place.category }}</td>
-                    <td>{{ place.description }}</td>
-                    <td>
-                        <a href="/admin/places/{{ place.id }}/menu" class="btn-edit" style="text-decoration:none;">Menu</a>
-                        <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ place.id }}">Edit</button>
-                        <form method="post" action="/admin/places/delete/{{ place.id }}" style="display:inline;">
-                            <button type="submit" class="btn-delete" onclick="return confirm('Delete this place?')">Delete</button>
+                        <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ item.id }}">Edit</button>
+                        <form method="post" action="/admin/places/{{ place.id }}/menu/delete/{{ item.id }}" style="display:inline;">
+                            <button type="submit" class="btn-delete" onclick="return confirm('Delete this item?')">Delete</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
+
+                {% if not menu_items %}
+                <tr>
+                    <td colspan="4" style="text-align:center; color:#9CA3AF;">No menu items yet.</td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
 </div>
 
-{% for place in places %}
-<div class="modal fade" id="editModal{{ place.id }}" tabindex="-1">
+{% for item in menu_items %}
+<div class="modal fade" id="editModal{{ item.id }}" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Place</h5>
+                <h5 class="modal-title">Edit Menu Item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="post" action="/admin/places/edit/{{ place.id }}">
+            <form method="post" action="/admin/places/{{ place.id }}/menu/edit/{{ item.id }}">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ place.name }}" required>
+                        <input type="text" name="name" class="form-control" value="{{ item.name }}" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Description</label>
-                        <input type="text" name="description" class="form-control" value="{{ place.description }}" required>
+                        <input type="text" name="description" class="form-control" value="{{ item.description or '' }}">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Category</label>
-                        <input type="text" name="category" class="form-control" value="{{ place.category }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Image URL</label>
-                        <input type="text" name="image_url" class="form-control" value="{{ place.image_url or '' }}">
+                        <label class="form-label">Price ($)</label>
+                        <input type="number" name="price" class="form-control" step="0.01" min="0" value="{{ item.price }}" required>
                     </div>
                 </div>
                 <div class="modal-footer">

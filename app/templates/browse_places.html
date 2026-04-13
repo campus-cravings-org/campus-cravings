@@ -8,7 +8,7 @@ body {
 .browse-page {
     max-width: 980px;
     margin: 0 auto;
-    padding: 24px 16px 40px;
+    padding: 80px 16px 40px;
 }
 .browse-header {
     display: grid;
@@ -17,21 +17,11 @@ body {
     align-items: center;
     margin-bottom: 20px;
 }
-.browse-title {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
 .browse-title h1 {
     margin: 0;
     font-size: clamp(2rem, 3vw, 2.6rem);
     line-height: 1.05;
     color: #FFFFFF;
-}
-.browse-welcome {
-    color: #C4622D;
-    font-weight: 600;
-    text-align: right;
 }
 .browse-search-panel {
     background: rgba(255,255,255,0.05);
@@ -66,9 +56,10 @@ body {
 }
 .filter-row {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     gap: 10px;
     margin-top: 18px;
+    align-items: center;
 }
 .filter-pill {
     border: 1px solid rgba(255,255,255,0.15);
@@ -92,7 +83,7 @@ body {
 }
 .places-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
 }
 .browse-card {
@@ -130,31 +121,11 @@ body {
     gap: 8px;
     flex-wrap: nowrap;
 }
-.browse-card-body .category-tag {
-    display: inline-flex;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(196, 98, 45, 0.2);
-    color: #F4A67A;
-    font-size: .85rem;
-    font-weight: 700;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
 .browse-card-body p.description {
     margin: 0;
     color: #D1D5DB;
     line-height: 1.6;
     min-height: 3.2rem;
-}
-.browse-card-body .action-row {
-    display: grid;
-    gap: 10px;
-}
-.action-row .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
 }
 .browse-card-body a,
 .browse-card-body button {
@@ -189,20 +160,10 @@ body {
 .browse-card-body .secondary-btn:hover {
     background: rgba(255,255,255,0.15);
 }
-.browse-card-body .favourite-btn {
-    width: 100%;
-}
 .browse-card-body .favourite-btn.active {
     background: rgba(179, 40, 74, 0.3);
     color: #f2a0b5;
     border-color: rgba(179, 40, 74, 0.4);
-}
-.browse-card-body .location-btn {
-    width: 100%;
-}
-.action-row {
-    display: grid;
-    gap: 12px;
 }
 .button-group {
     display: grid;
@@ -246,6 +207,7 @@ body {
     color: #FFFFFF;
     width: 100%;
     cursor: pointer;
+    text-decoration: none;
 }
 .filter-item:hover {
     background: rgba(255,255,255,0.08);
@@ -259,13 +221,36 @@ body {
     color: #9CA3AF;
     padding: 40px 0;
 }
+.avg-rating {
+    font-size: 0.85rem;
+    color: #F4A67A;
+    white-space: nowrap;
+}
+.fav-tooltip-wrapper {
+    position: relative;
+    width: 100%;
+}
+.fav-tooltip-wrapper .fav-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+}
+.fav-tooltip-wrapper:hover .fav-tooltip {
+    display: block;
+}
 @media (max-width: 768px) {
-    .browse-header {
+    .places-grid {
         grid-template-columns: 1fr;
-        text-align: left;
-    }
-    .browse-welcome {
-        text-align: left;
     }
 }
 </style>
@@ -277,15 +262,15 @@ body {
         <div class="browse-title">
             <h1>Campus Cravings</h1>
         </div>
-        <div class="browse-welcome">
-            Welcome, {{ user.username if user else 'User' }}
-        </div>
     </div>
 
     <form method="get" action="/places" class="browse-search-panel">
         <div class="search-box">
             <span class="material-symbols-outlined">search</span>
             <input id="searchInput" type="text" name="search" placeholder="Search" value="{{ search or '' }}">
+            <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; display:flex; align-items:center;">
+                <span class="material-symbols-outlined" style="color:#C4622D; font-size:26px;">arrow_forward</span>
+            </button>
         </div>
         <div class="filter-row">
             <div class="filter-dropdown">
@@ -294,10 +279,25 @@ body {
                     <span class="material-symbols-outlined">arrow_drop_down</span>
                 </button>
                 <div class="filter-dropdown-menu" id="categoryDropdownMenu">
-                    <button type="submit" class="filter-item filter-item-all {% if not selected_category %}active{% endif %}" name="category" value="">All</button>
+                    <a href="/places" class="filter-item filter-item-all {% if not selected_category %}active{% endif %}">All</a>
                     {% for cat in categories %}
                     <button type="submit" class="filter-item {% if cat == selected_category %}active{% endif %}" name="category" value="{{ cat }}">{{ cat }}</button>
                     {% endfor %}
+                </div>
+            </div>
+
+            <div class="filter-dropdown">
+                <button type="button" class="filter-pill filter-dropdown-toggle" id="ratingDropdownButton">
+                    {% if selected_rating %}{{ selected_rating }} Star{% else %}Rating{% endif %}
+                    <span class="material-symbols-outlined">arrow_drop_down</span>
+                </button>
+                <div class="filter-dropdown-menu" id="ratingDropdownMenu">
+                    <a href="/places{% if selected_category %}?category={{ selected_category }}{% endif %}" class="filter-item {% if not selected_rating %}active{% endif %}">All</a>
+                    <button type="submit" class="filter-item {% if selected_rating == 1 %}active{% endif %}" name="rating" value="1">⭐</button>
+                    <button type="submit" class="filter-item {% if selected_rating == 2 %}active{% endif %}" name="rating" value="2">⭐⭐</button>
+                    <button type="submit" class="filter-item {% if selected_rating == 3 %}active{% endif %}" name="rating" value="3">⭐⭐⭐</button>
+                    <button type="submit" class="filter-item {% if selected_rating == 4 %}active{% endif %}" name="rating" value="4">⭐⭐⭐⭐</button>
+                    <button type="submit" class="filter-item {% if selected_rating == 5 %}active{% endif %}" name="rating" value="5">⭐⭐⭐⭐⭐</button>
                 </div>
             </div>
         </div>
@@ -310,13 +310,16 @@ body {
             <div class="browse-card-body">
                 <div class="meta-row">
                     <h3>{{ place.name }}</h3>
-                    <span class="category-tag">{{ place.category }}</span>
+                    {% if avg_ratings[place.id] %}
+                    <div class="avg-rating">⭐ {{ avg_ratings[place.id] }} ({{ review_counts[place.id] }} {% if review_counts[place.id] == 1 %}rating{% else %}ratings{% endif %})</div>
+                    {% endif %}
                 </div>
+                <div style="font-size: 0.85rem; color: #F4A67A; margin-top: -8px;">{{ place.category }}</div>
                 <p class="description">{{ place.description }}</p>
-                <div class="action-row">
-                    <div class="button-group">
-                        <a href="/places/{{ place.id }}" class="primary-btn">View Details</a>
-                        {% if user %}
+                <div class="button-group">
+                    <a href="/places/{{ place.id }}" class="primary-btn">View Details</a>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        {% if user and user.role != "admin" %}
                             {% if place.id in fav_place_ids %}
                             <form method="post" action="/favourites/remove/{{ place.id }}" style="width:100%;">
                                 <button type="submit" class="secondary-btn favourite-btn active" style="width:100%;">♥ Favourited</button>
@@ -326,10 +329,10 @@ body {
                                 <button type="submit" class="secondary-btn favourite-btn" style="width:100%;">♡ Favourite</button>
                             </form>
                             {% endif %}
-                        {% else %}
-                        <a href="/login" class="secondary-btn favourite-btn" style="width:100%;">♡ Favourite</a>
+                        {% elif not user %}
+                        <a href="/login" class="secondary-btn favourite-btn" style="width:100%;" title="Login to use this feature">♡ Favourite</a>
                         {% endif %}
-                        <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="secondary-btn location-btn">View Location</a>
+                        <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="secondary-btn location-btn" style="width:100%;">View Location</a>
                     </div>
                 </div>
             </div>
@@ -344,5 +347,29 @@ body {
     </div>
 </div>
 
+<script>
+document.querySelectorAll('.favourite-btn').forEach(function(btn) {
+    btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const form = btn.closest('form');
+        if (!form) return;
+        const url = form.action;
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            redirect: 'follow'
+        });
+        if (btn.classList.contains('active')) {
+            btn.classList.remove('active');
+            btn.textContent = '♡ Favourite';
+            form.action = form.action.replace('/remove/', '/add/');
+        } else {
+            btn.classList.add('active');
+            btn.textContent = '♥ Favourited';
+            form.action = form.action.replace('/add/', '/remove/');
+        }
+    });
+});
+</script>
 
 {% endblock %}

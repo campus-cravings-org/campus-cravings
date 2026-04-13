@@ -132,9 +132,9 @@ body {
                 <h5>{{ place.name }}</h5>
                 <p class="category">{{ place.category }}</p>
                 <p class="description">{{ place.description }}</p>
-                <a href="/places/{{ place.id }}" class="btn-view">View Menu</a>
+                <a href="/places/{{ place.id }}" class="btn-view">View Details</a>
                 <form method="post" action="/favourites/remove/{{ place.id }}">
-                    <button type="submit" class="btn-remove">♡ Remove</button>
+                    <button type="submit" class="btn-remove">Remove</button>
                 </form>
             </div>
         </article>
@@ -142,9 +142,25 @@ body {
 
         {% if not places %}
         <div class="empty-state">
-            <p>No favourites yet. Browse places and add some!</p>
+            <p>No favourites yet. Browse and add some!</p>
         </div>
         {% endif %}
     </div>
 </div>
+<script>
+document.querySelectorAll('.btn-remove').forEach(function(btn) {
+    btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        const form = btn.closest('form');
+        if (!form) return;
+        await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            redirect: 'follow'
+        });
+        const card = btn.closest('article');
+        if (card) card.remove();
+    });
+});
+</script>
 {% endblock %}

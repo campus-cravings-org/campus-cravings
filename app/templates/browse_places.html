@@ -321,6 +321,20 @@ body {
                     <p class="description">{{ place.description }}</p>
                     <div class="button-group">
                         <a href="/places/{{ place.id }}" class="primary-btn">View Details</a>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            {% if user and user.role != "admin" %}
+                                {% if place.id in fav_place_ids %}
+                                <form method="post" action="/favourites/remove/{{ place.id }}" style="width:100%;">
+                                    <button type="submit" class="secondary-btn favourite-btn active" style="width:100%;">♥ Favourited</button>
+                                </form>
+                                {% else %}
+                                <form method="post" action="/favourites/add/{{ place.id }}" style="width:100%;">
+                                    <button type="submit" class="secondary-btn favourite-btn" style="width:100%;">♡ Favourite</button>
+                                </form>
+                                {% endif %}
+                            {% endif %}
+                            <a href="https://maps.google.com/maps?q={{ (place.name + ' UWI St Augustine Trinidad') | urlencode }}" target="_blank" class="secondary-btn location-btn" style="width:100%;">View Location</a>
+                        </div>
                     </div>
                 </div>
             </article>

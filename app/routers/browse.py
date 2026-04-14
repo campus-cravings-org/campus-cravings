@@ -51,16 +51,13 @@ async def browse_places_view(
     # Recommendations based on favourited categories
     recommendations = []
     if user and user.role != "admin" and fav_place_ids:
-        fav_places = db.exec(select(Place).where(Place.id.in_(fav_place_ids))).all()
+        fav_places = [p for p in all_places_for_ratings if p.id in fav_place_ids]
         fav_categories = set(p.category for p in fav_places)
         if fav_categories:
-            recommendations = db.exec(
-                select(Place).where(
-                    Place.category.in_(fav_categories),
-                    Place.id.not_in(fav_place_ids)
-                )
-            ).all()
-            # Sort by highest rated first, then limit to 3
+            recommendations = [
+                p for p in all_places_for_ratings
+                if p.category in fav_categories and p.id not in fav_place_ids
+            ]
             recommendations = sorted(
                 recommendations,
                 key=lambda p: avg_ratings.get(p.id) or 0,

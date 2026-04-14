@@ -162,6 +162,12 @@
         </div>
         {% endfor %}
 
+        {% if request.query_params.get('next') == 'favourites' %}
+        <div class="text-center mb-2">
+            <span class="error-pill">Please log in to view your favourites</span>
+        </div>
+        {% endif %}
+        
         <form method="POST">
             <div class="mb-3">
                 <label class="form-label fw-semibold mb-1">

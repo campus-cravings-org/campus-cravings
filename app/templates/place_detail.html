@@ -149,6 +149,8 @@ p {
                 <button type="submit" class="btn btn-outline-danger">♡ Favourite</button>
             </form>
             {% endif %}
+        {% elif not user %}
+            <a href="/login?next=favourites" class="btn btn-outline-secondary" title="Login to favourite this place">♡ Favourite</a>
         {% endif %}
     </div>
 </div>

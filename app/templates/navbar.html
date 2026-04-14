@@ -17,14 +17,14 @@
                     <a class="nav-link" href="/places">Browse Places</a>
                 </li>
                 {% if user and user.role != "admin" %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/favourites">Favourites</a>
-                    </li>
-                    {% else %}
-<li class="nav-item">
-    <span class="nav-link" style="cursor: default; opacity: 0.6;" title="Login to use this feature">Favourites</span>
-</li>
-{% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/favourites">Favourites</a>
+                </li>
+                {% elif not user %}
+                <li class="nav-item">
+                    <a class="nav-link" style="opacity: 0.6;" href="/login?next=favourites" title="Login to use this feature">Favourites</a>
+                </li>
+                {% endif %}
                 {% if user and user.role == "admin" %}
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/places">Manage Places</a>

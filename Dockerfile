@@ -12,4 +12,6 @@ RUN pip install .
 
 WORKDIR /
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "10000"]
+ENTRYPOINT ["python"]
+
+CMD ["app.main:app", "--host", "0.0.0.0", "--port", "10000"]

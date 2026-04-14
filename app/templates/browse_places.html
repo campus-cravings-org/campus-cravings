@@ -402,15 +402,7 @@ document.querySelectorAll('.favourite-btn').forEach(function(btn) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             redirect: 'follow'
         });
-        if (btn.classList.contains('active')) {
-            btn.classList.remove('active');
-            btn.textContent = '♡ Favourite';
-            form.action = form.action.replace('/remove/', '/add/');
-        } else {
-            btn.classList.add('active');
-            btn.textContent = '♥ Favourited';
-            form.action = form.action.replace('/add/', '/remove/');
-        }
+        window.location.reload();
     });
 });
 </script>

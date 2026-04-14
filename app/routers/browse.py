@@ -48,6 +48,25 @@ async def browse_places_view(
 
     categories = sorted(set(p.category for p in all_places_for_ratings))
 
+    # Recommendations based on favourited categories
+    recommendations = []
+    if user and user.role != "admin" and fav_place_ids:
+        fav_places = db.exec(select(Place).where(Place.id.in_(fav_place_ids))).all()
+        fav_categories = set(p.category for p in fav_places)
+        if fav_categories:
+            recommendations = db.exec(
+                select(Place).where(
+                    Place.category.in_(fav_categories),
+                    Place.id.not_in(fav_place_ids)
+                )
+            ).all()
+            # Sort by highest rated first, then limit to 3
+            recommendations = sorted(
+                recommendations,
+                key=lambda p: avg_ratings.get(p.id) or 0,
+                reverse=True
+            )[:3]
+
     return templates.TemplateResponse(request=request, name="browse_places.html", context={
         "places": places,
         "user": user,
@@ -57,5 +76,6 @@ async def browse_places_view(
         "selected_rating": rating,
         "fav_place_ids": fav_place_ids,
         "avg_ratings": avg_ratings,
-        "review_counts": review_counts
+        "review_counts": review_counts,
+        "recommendations": recommendations
     })

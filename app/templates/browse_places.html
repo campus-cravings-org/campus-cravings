@@ -306,7 +306,7 @@ body {
     {% if recommendations %}
     <div class="mb-4">
         <h2 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 16px;">⭐ Recommended for You</h2>
-        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px;">
+        <div class="places-grid">
             {% for place in recommendations %}
             <article class="browse-card">
                 <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }} image">

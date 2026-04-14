@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
                 session.add(Place(name="Rituals Coffee House", description="Coffee, Drinks & Food Items", category="Cafe", image_url="/static/img/rituals-coffee-house.jpg"))
                 session.add(Place(name="Linda's", description="Pastries, Salads, Breads & Juices", category="Bakery", image_url="/static/img/lindas.jpg"))
                 session.add(Place(name="Ave 5055", description="Desserts", category="Desserts", image_url="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400"))
-                session.add(Place(name="The Gourmet Pot", description="Contemporary Cuisine", category="Fine Dining", image_url="/static/img/gourmet-pot.jpg"))
+                session.add(Place(name="The Gourmet Pot", description="Contemporary Cuisine", category="Fine Dining", image_url="/static/img/gourmet.jpg"))
                 session.add(Place(name="KFC", description="Fries and Chicken", category="Fast Food", image_url="/static/img/kfc.jpeg"))
                 session.add(Place(name="Subway", description="Sub Sandwiches", category="Fast Food", image_url="/static/img/subway.jpeg"))
                 session.add(Place(name="Benny's BBQ & Burgers", description="Burgers & BBQ", category="Burgers", image_url="/static/img/bbq.jpg"))

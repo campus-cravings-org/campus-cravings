@@ -9,7 +9,7 @@ body {
 .favourites-page {
     max-width: 980px;
     margin: 0 auto;
-    padding: 24px 16px 40px;
+    padding: 80px 16px 40px;
 }
 
 .favourites-page h2 {
@@ -22,6 +22,18 @@ body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 22px;
+}
+
+@media (max-width: 767px) {
+    .places-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .places-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .browse-card {

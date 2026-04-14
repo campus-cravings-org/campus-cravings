@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
             if not session.exec(select(Place)).first():
                 session.add(Place(name="Dee & Vees", description="Creole Food", category="Creole", image_url="/static/img/dees-and-vees.jpg"))
                 session.add(Place(name="La Bloom Café", description="Coffee, Drinks and Food items", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
-                session.add(Place(name="Caribbean Natural Juices", description="Fresh Juices", category="Drinks", image_url="/static/img/just-juiced.jpg"))
+                session.add(Place(name="Just Juiced", description="Fresh Juices", category="Drinks", image_url="/static/img/just-juiced.jpg"))
                 session.add(Place(name="Celes and Son", description="Home-style Creole Cooking", category="Creole", image_url="/static/img/celes.jpg"))
                 session.add(Place(name="Maureen's Cuisine", description="Pies, Sandwiches & Snacks", category="Snacks", image_url="/static/img/maureen.jpg"))
                 session.add(Place(name="Oriental Cuisine", description="Chinese Food", category="Chinese", image_url="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400"))

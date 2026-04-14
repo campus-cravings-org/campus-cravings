@@ -126,6 +126,59 @@ body {
     background: rgba(179, 40, 74, 0.4);
 }
 
+/* ── Mobile table fixes ── */
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.action-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.table tbody td {
+    white-space: nowrap;
+}
+
+/* Description can wrap — only column allowed to break */
+.td-description {
+    white-space: normal;
+    min-width: 140px;
+    max-width: 200px;
+}
+
+/* Keep action column from shrinking too small */
+.td-actions {
+    min-width: 170px;
+}
+
+@media (max-width: 767px) {
+    .admin-page {
+        padding: 80px 12px 30px;
+    }
+
+    .admin-card {
+        padding: 16px;
+    }
+
+    /* Stack add-form fields full width on mobile */
+    .admin-card .btn-add {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Tighten button sizes on small screens */
+    .btn-edit,
+    .btn-delete {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
+}
+
 .modal-content {
     background: #0F2D1A;
     border: 1px solid rgba(255,255,255,0.15);
@@ -203,36 +256,47 @@ body {
 
     <div class="admin-card">
         <h5>All Places</h5>
-        <table class="table table-hover mt-3">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for place in places %}
-                <tr>
-                    <td>
-                        <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
-                    </td>
-                    <td>{{ place.name }}</td>
-                    <td>{{ place.category }}</td>
-                    <td>{{ place.description }}</td>
-                    <td>
-                        <a href="/admin/places/{{ place.id }}/menu" class="btn-edit" style="text-decoration:none;">Menu</a>
-                        <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ place.id }}">Edit</button>
-                        <form method="post" action="/admin/places/delete/{{ place.id }}" style="display:inline;">
-                            <button type="submit" class="btn-delete" onclick="return confirm('Delete this place?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <!-- Hidden on mobile — too wide -->
+                        <th class="d-none d-md-table-cell">Description</th>
+                        <th class="td-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for place in places %}
+                    <tr>
+                        <td>
+                            <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}"
+                                alt="{{ place.name }}"
+                                style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; flex-shrink: 0;">
+                        </td>
+                        <td>{{ place.name }}</td>
+                        <td>{{ place.category }}</td>
+                        <!-- Hidden on mobile -->
+                        <td class="td-description d-none d-md-table-cell">{{ place.description }}</td>
+                        <td class="td-actions">
+                            <div class="action-btns">
+                                <a href="/admin/places/{{ place.id }}/menu" class="btn-edit"
+                                    style="text-decoration:none;">Menu</a>
+                                <button class="btn-edit" data-bs-toggle="modal"
+                                    data-bs-target="#editModal{{ place.id }}">Edit</button>
+                                <form method="post" action="/admin/places/delete/{{ place.id }}">
+                                    <button type="submit" class="btn-delete"
+                                        onclick="return confirm('Delete this place?')">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

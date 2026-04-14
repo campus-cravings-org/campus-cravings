@@ -36,10 +36,17 @@ async def place_detail_view(
             "username": reviewer.username if reviewer else "Anonymous"
         })
 
+    # Rating breakdown for Highcharts
+    rating_counts = [0, 0, 0, 0, 0]  # index 0 = 1 star, index 4 = 5 stars
+    for r in reviews:
+        if 1 <= r.rating <= 5:
+            rating_counts[r.rating - 1] += 1
+
     return templates.TemplateResponse(request=request, name="place_detail.html", context={
         "place": place,
         "menu_items": menu_items,
         "reviews": reviews_with_users,
         "user": user,
-        "fav_place_ids": fav_place_ids
+        "fav_place_ids": fav_place_ids,
+        "rating_counts": rating_counts
     })

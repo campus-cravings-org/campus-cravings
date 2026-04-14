@@ -253,7 +253,47 @@ p {
         </div>
     </div>
     {% endif %}
+    
+    {% if reviews %}
+    <div class="mt-4">
+        <h4 class="mb-3">Rating Breakdown</h4>
+        <div id="ratingsChart"></div>
+    </div>
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+        Highcharts.chart('ratingsChart', {
+            chart: { 
+                type: 'column',
+                backgroundColor: 'transparent'
+            },
+            title: { 
+                text: 'Customer Ratings',
+                style: { color: '#ffffff' }
+            },
+            xAxis: {
+                categories: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+                labels: { style: { color: '#ffffff' } }
+            },
+            yAxis: {
+                min: 0,
+                title: { text: 'Number of Reviews', style: { color: '#ffffff' } },
+                allowDecimals: false,
+                labels: { style: { color: '#ffffff' } },
+                gridLineColor: 'rgba(255,255,255,0.1)'
+            },
+            legend: {
+                itemStyle: { color: '#ffffff' }
+            },
+            series: [{
+                name: 'Reviews /Stars ',
+                data: {{ rating_counts | tojson }},
+                color: '#f97316'
+            }],
+            credits: { enabled: false }
+        });
+            </script>
+    {% endif %}
     <a href="/places" class="btn btn-secondary mt-3">← Back to Places</a>
 </div>
 {% endblock %}

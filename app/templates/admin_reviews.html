@@ -75,6 +75,45 @@ body {
 
 .stars {
     color: #F4A67A;
+    white-space: nowrap;
+}
+
+/* ── Mobile table fixes ── */
+.table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table tbody td {
+    white-space: nowrap;
+}
+
+/* Comment column allowed to wrap */
+.td-comment {
+    white-space: normal;
+    min-width: 140px;
+    max-width: 220px;
+}
+
+/* Actions column always has room for the button */
+.td-actions {
+    min-width: 100px;
+}
+
+@media (max-width: 767px) {
+    .admin-page {
+        padding: 80px 12px 30px;
+    }
+
+    .admin-card {
+        padding: 16px;
+    }
+
+    .btn-delete {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    }
 }
 </style>
 {% endblock %}
@@ -85,38 +124,43 @@ body {
 
     <div class="admin-card">
         <h5>All Reviews</h5>
-        <table class="table table-hover mt-3">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Place</th>
-                    <th>Rating</th>
-                    <th>Comment</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in reviews %}
-                <tr>
-                    <td>{{ item.username }}</td>
-                    <td>{{ item.place_name }}</td>
-                    <td class="stars">⭐ {{ item.review.rating }}/5</td>
-                    <td>{{ item.review.comment or '—' }}</td>
-                    <td>
-                        <form method="post" action="/admin/reviews/delete/{{ item.review.id }}" style="display:inline;">
-                            <button type="submit" class="btn-delete" onclick="return confirm('Delete this review?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
+        <div class="table-responsive mt-3">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Place</th>
+                        <th>Rating</th>
+                        <!-- Hidden on mobile — least critical column -->
+                        <th class="d-none d-md-table-cell">Comment</th>
+                        <th class="td-actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in reviews %}
+                    <tr>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.place_name }}</td>
+                        <td class="stars">⭐ {{ item.review.rating }}/5</td>
+                        <!-- Hidden on mobile -->
+                        <td class="td-comment d-none d-md-table-cell">{{ item.review.comment or '—' }}</td>
+                        <td class="td-actions">
+                            <form method="post" action="/admin/reviews/delete/{{ item.review.id }}">
+                                <button type="submit" class="btn-delete"
+                                    onclick="return confirm('Delete this review?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
 
-                {% if not reviews %}
-                <tr>
-                    <td colspan="5" style="text-align:center; color:#9CA3AF;">No reviews yet.</td>
-                </tr>
-                {% endif %}
-            </tbody>
-        </table>
+                    {% if not reviews %}
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:#9CA3AF;">No reviews yet.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

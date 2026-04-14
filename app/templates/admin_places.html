@@ -268,7 +268,7 @@ body {
                         <th>Name</th>
                         <th>Category</th>
                         <!-- Hidden on mobile — too wide -->
-                        <th class="d-none d-md-table-cell">Description</th>
+                        <th>Description</th>
                         <th class="td-actions">Actions</th>
                     </tr>
                 </thead>
@@ -283,7 +283,7 @@ body {
                         <td>{{ place.name }}</td>
                         <td>{{ place.category }}</td>
                         <!-- Hidden on mobile -->
-                        <td class="td-description d-none d-md-table-cell">{{ place.description }}</td>
+                        <td class="td-description">{{ place.description }}</td>
                         <td class="td-actions">
                             <div class="action-btns">
                                 <a href="/admin/places/{{ place.id }}/menu" class="btn-edit"

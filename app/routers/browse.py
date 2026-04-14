@@ -38,7 +38,7 @@ async def browse_places_view(
 
     query = select(Place)
     if search:
-        query = query.where(Place.name.contains(search))
+        query = query.where(Place.name.ilike(f"%{search}%"))
     if category:
         query = query.where(Place.category == category)
     places = db.exec(query).all()

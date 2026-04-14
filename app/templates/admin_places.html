@@ -261,7 +261,7 @@ body {
     <div class="admin-card">
         <h5>All Places</h5>
         <div class="table-responsive mt-3">
-            <table class="table table-hover" style="min-width: 550px;">
+            <table class="table table-hover" style="min-width: 800px;">
                 <thead>
                     <tr>
                         <th>Image</th>
@@ -297,7 +297,7 @@ body {
                             </div>
                         </td>
                     </tr>
-                    {% endfor %}
+                    {% endfor %}<td class="td-description">{{ place.description }}</td>
                 </tbody>
             </table>
         </div>

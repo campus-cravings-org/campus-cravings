@@ -45,9 +45,20 @@ async def edit_place(request: Request, place_id: int, db: SessionDep, current_us
     flash(request, "Place updated!", "success")
     return RedirectResponse(url=request.url_for("admin_places_view"), status_code=status.HTTP_303_SEE_OTHER)
 
-# Delete a place
+'''
 @router.post("/admin/places/delete/{place_id}", response_class=HTMLResponse)
 async def delete_place(request: Request, place_id: int, db: SessionDep, current_user: AuthDep):
+    if current_user.role != "admin":
+        return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
+    place = db.get(Place, place_id)
+    db.delete(place)
+    db.commit()
+    flash(request, "Place deleted!", "success")
+    return RedirectResponse(url=request.url_for("admin_places_view"), status_code=status.HTTP_303_SEE_OTHER) 
+'''
+
+@router.get("/admin/places/delete/{place_id}")
+async def delete_place_get(request: Request, place_id: int, db: SessionDep, current_user: AuthDep):
     if current_user.role != "admin":
         return RedirectResponse(url=request.url_for("index_view"), status_code=status.HTTP_303_SEE_OTHER)
     place = db.get(Place, place_id)

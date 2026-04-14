@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
     # Seed default places
     with Session(engine) as session:
             if not session.exec(select(Place)).first():
-                session.add(Place(name="Dee & Vees", description="Creole Food", category="Creole", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
+                session.add(Place(name="Dee & Vees", description="Creole Food", category="Creole", image_url="/static/img/dees-and-vees.jpg"))
                 session.add(Place(name="La Bloom Café", description="Coffee, Drinks and Food items", category="Cafe", image_url="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400"))
                 session.add(Place(name="Caribbean Natural Juices", description="Fresh Juices", category="Drinks", image_url="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=800"))
                 session.add(Place(name="Celes and Son", description="Home-style Creole Cooking", category="Creole", image_url="https://images.unsplash.com/photo-1544025162-d76694265947?w=400"))
@@ -62,7 +62,7 @@ app = FastAPI(middleware=[
     Middleware(SessionMiddleware, secret_key=get_settings().secret_key)
 ],
     lifespan=lifespan
-)   
+)
 
 app.include_router(router)
 app.include_router(api_router)
@@ -71,7 +71,7 @@ app.mount("/static", static_files, name="static")
 @app.exception_handler(status.HTTP_401_UNAUTHORIZED)
 async def unauthorized_redirect_handler(request: Request, exc: Exception):
     return templates.TemplateResponse(
-        request=request, 
+        request=request,
         name="401.html",
     )
 

@@ -248,6 +248,20 @@ body {
 .fav-tooltip-wrapper:hover .fav-tooltip {
     display: block;
 }
+
+.rec-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.rec-scroll::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 999px;
+}
+.rec-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 999px;
+}
+
+
 @media (max-width: 768px) {
     .places-grid {
         grid-template-columns: 1fr;
@@ -306,9 +320,9 @@ body {
     {% if recommendations %}
     <div class="mb-4">
         <h2 style="color: #FFFFFF; font-size: 1.3rem; margin-bottom: 16px;">⭐ Recommended for You</h2>
-        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px;">
+        <div class="rec-scroll" style="display: flex; flex-wrap: nowrap; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; -webkit-overflow-scrolling: touch;">
             {% for place in recommendations %}
-            <article class="browse-card">
+            <article class="browse-card" style="min-width: 300px; flex-shrink: 0; scroll-snap-align: start;">
                 <img src="{{ place.image_url if place.image_url else 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT27gTKHqKhHk3i-EiarE5Q9IND_awvKaKjxw&s' }}" alt="{{ place.name }} image">
                 <div class="browse-card-body">
                     <div class="meta-row">

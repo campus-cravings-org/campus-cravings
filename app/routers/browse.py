@@ -62,7 +62,7 @@ async def browse_places_view(
                 recommendations,
                 key=lambda p: avg_ratings.get(p.id) or 0,
                 reverse=True
-            )[:3]
+            )
 
     return templates.TemplateResponse(request=request, name="browse_places.html", context={
         "places": places,

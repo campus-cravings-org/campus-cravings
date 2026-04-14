@@ -10,6 +10,7 @@ body {
     max-width: 900px;
     margin: 0 auto;
     padding: 24px 16px 40px;
+    padding-top: 80px
 }
 
 .admin-page h3 {
@@ -96,6 +97,14 @@ body {
     color: #FFFFFF;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    min-width: 500px;
+}
 .table {
     color: #FFFFFF;
     --bs-table-bg: transparent;
@@ -222,6 +231,7 @@ body {
 
     <div class="admin-card">
         <h5>All Menu Items</h5>
+        <div class="table-responsive">
         <table class="table table-hover mt-3">
             <thead>
                 <tr>
@@ -238,8 +248,9 @@ body {
                     <td>{{ item.description or '—' }}</td>
                     <td>${{ item.price }}</td>
                     <td>
-                        <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ item.id }}">Edit</button>
-                        <form method="post" action="/admin/places/{{ place.id }}/menu/delete/{{ item.id }}" style="display:inline;">
+                       <td style="white-space: nowrap;">
+    <button class="btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ item.id }}">Edit</button>
+                        <form style="display:contents;"method="post" action="/admin/places/{{ place.id }}/menu/delete/{{ item.id }}">
                             <button type="submit" class="btn-delete" onclick="return confirm('Delete this item?')">Delete</button>
                         </form>
                     </td>
@@ -253,6 +264,7 @@ body {
                 {% endif %}
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 
